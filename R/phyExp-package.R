@@ -1,0 +1,16 @@
+
+#' @title the phyExp package for phylogenetic analysis of expression data
+#'
+#' @description \code{phyExp} is an R package that performs expression phylogenetic analysis
+#' from RNA-seq count data, including optimized input formatting, normalization
+#' and pair-wise distance evaluation, preliminary phylogenetic network analysis.
+#' @name phyExp-package
+#'
+#' @docType package
+#'
+#' @import ape
+#' @import methods
+#'
+#' @author Hang Ruan (hang.ruan@hotmail.com).
+#'
+NULL
