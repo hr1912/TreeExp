@@ -9,7 +9,6 @@
 #' @docType package
 #'
 #' @import ape
-#' @import methods
 #'
 #' @author Hang Ruan (hang.ruan@hotmail.com).
 #'

@@ -84,7 +84,7 @@ boot.exphy = function (phy = NULL, objects = NULL,
 
   for (i in 1:objects_sub_n) {
 
-    taxon.names[i] = objects.sub[[i]]$subTaxon.name
+    taxon.names[i] = paste0(objects.sub[[i]]$taxon.name, "_", objects.sub[[i]]$subTaxon.name)
 
     reads.count[,i] = apply(objects.sub[[i]]$readsCount.rmOut,1,mean)
     gene_length[,i] = objects.sub[[i]]$gene.lengths
@@ -163,6 +163,8 @@ boot.exphy = function (phy = NULL, objects = NULL,
     row.names(dis.mat) = taxon.names
     colnames(dis.mat) = taxon.names
 
+    #browser()
+    
     if (!is.null(rooted))
       boot.tree[[n]] <- root(nj(dis.mat),rooted)
     else
