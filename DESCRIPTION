@@ -1,10 +1,11 @@
 Package: phyExp
 Type: Package
 Title: the R package for phylogenetic analysis of expression data
-Version: 0.1
+Version: 1.0
 Date: 2016-02-07
 Author: Hang Ruan <hang.ruan@hotmail.com>
 Maintainer: Hang Ruan <hang.ruan@hotmail.com>
+Depends: R (>= 3.0.0), ape
 Description: phyExp is an R package that performs expression phylogenetic analysis from RNA-seq count data, including optimized input formatting, normalization and pair-wise distance evaluation, preliminary phylogenetic network analysis. phyExp wraps several methods that first implemented in R.
 License: GNU GENERAL PUBLIC LICENSE v3
 LazyData: TRUE
