@@ -52,7 +52,7 @@ solveAnEquation <- function( left = NULL ) {
 #' @references
 #'
 estgamma = function (objects = NULL, taxa = NULL, subtaxa = NULL,
-                    method = c("rho","brownian", "gu2013", "euc", "cos","jsd"))
+                    method = c("sou", "ced", "rho", "souln", "nbdln", "euc", "cos", "jsd"))
 {
   #if(verbose) message(date())
 

@@ -18,7 +18,8 @@ kld = function (x,y) sum(x * log2(x/y))
 #'
 #' @references
 #'
-dist.gu2013 = function (reads.count = NULL, gene_length = NULL, omega = NULL) {
+#' Distance based on negative bio distribution and log normal model
+dist.nbdln = function (reads.count = NULL, gene_length = NULL, omega = NULL) {
 
   object_n <- ncol(reads.count)
   gene_n <- nrow(reads.count)
@@ -109,9 +110,9 @@ dist.gu2013 = function (reads.count = NULL, gene_length = NULL, omega = NULL) {
 
 }
 
-# Brownian distance
+# distance based on stationary OU and Log normal model distance
 #' @rdname distances
-dist.brownian = function (reads.count = NULL, gene_length = NULL) {
+dist.souln = function (reads.count = NULL, gene_length = NULL) {
 
 
   object_n <- ncol(reads.count)
@@ -262,8 +263,8 @@ dist.euc = function (meanRPKM = NULL) {
 
     for (j in (i+1):object_n) {
 
-      dis.mat[j,i] <- (euc.dist(log2(meanRPKM[,i]+1),log2(meanRPKM[,j]+1)))/gene_n
-      #dis.mat[j,i] <- (euc.dist(log2(meanRPKM[,i]+1),log2(meanRPKM[,j]+1)))
+      #dis.mat[j,i] <- (euc.dist(log2(meanRPKM[,i]+1),log2(meanRPKM[,j]+1)))/gene_n
+      dis.mat[j,i] <- (euc.dist(log2(meanRPKM[,i]+1),log2(meanRPKM[,j]+1)))
     }
 
   }
@@ -288,6 +289,63 @@ dist.cos = function (meanRPKM = NULL) {
     for (j in (i+1):object_n) {
 
       dis.mat[j,i] <- 1-cosine.sim(log2(meanRPKM[,i]+1),log2(meanRPKM[,j]+1))
+
+    }
+
+  }
+
+  dis.mat
+
+}
+
+# Distance based on stationary Ornstein-Uhlenback model
+#' @rdname distances
+dist.sou = function (meanRPKM = NULL) {
+
+  object_n <- ncol(meanRPKM)
+  #gene_n <- nrow(meanRPKM)
+
+  dis.mat <- matrix(0, nr = object_n, nc = object_n)
+
+
+  for (i in 1:(object_n-1)) {
+
+    for (j in (i+1):object_n) {
+
+      V11 <- var(log2(meanRPKM[,i]+1))
+      V22 <- var(log2(meanRPKM[,j]+1))
+      V12 <- cov(log2(meanRPKM[,i]+1), log2(meanRPKM[,j]+1))
+
+      dis.mat[j,i] <- -log(V12/sqrt(V11*V12))
+
+    }
+
+  }
+
+  dis.mat
+
+}
+
+# Converntional expression distance
+#' @rdname distances
+dist.ced = function (meanRPKM = NULL) {
+
+  object_n <- ncol(meanRPKM)
+  gene_n <- nrow(meanRPKM)
+
+  dis.mat <- matrix(0, nr = object_n, nc = object_n)
+
+
+  for (i in 1:(object_n-1)) {
+
+    for (j in (i+1):object_n) {
+
+      V11 <- var(log2(meanRPKM[,i]+1))
+      V22 <- var(log2(meanRPKM[,j]+1))
+      V12 <- cov(log2(meanRPKM[,i]+1), log2(meanRPKM[,j]+1))
+
+      dis.mat[j,i] <- V11+V22-2*V12
+      #dis.mat[j,i] <- (euc.dist(log2(meanRPKM[,i]+1),log2(meanRPKM[,j]+1)))^2 / gene_n
 
     }
 

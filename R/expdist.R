@@ -23,7 +23,7 @@
 #' data(tetraexp)
 #' dismat <- expdist(tetraexp.objects, taxa = "all",
 #'                  subtaxa = "Brain",
-#'                  method = "rho")
+#'                  method = "sou")
 #' tr <- root(nj(dismat), "Chicken_Brain")
 #' plot(tr)
 #'
@@ -31,7 +31,7 @@
 #'
 #'
 expdist = function (objects = NULL, taxa = "all", subtaxa = "all",
-                    method = c("rho","brownian", "gu2013", "euc", "cos","jsd"))
+                    method = c("sou", "ced", "rho", "souln", "nbdln", "euc", "cos", "jsd"))
 {
   #if(verbose) message(date())
 
@@ -159,11 +159,16 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all",
   }
 
   #browser()
+  if (method == "sou")
+    dis.mat <- dis.sou(meanRPKM)
 
-  if (method == "gu2013")
-    dis.mat <- dist.gu2013(reads.count,gene_length,omega)
+  if (method == "ced")
+    dis.mat <- dis.ced(meanRPKM)
 
-  if (method == "brownian")
+  if (method == "nbdln")
+    dis.mat <- dist.ndbln(reads.count,gene_length,omega)
+
+  if (method == "souln")
     dis.mat <- dist.brownian(reads.count,gene_length)
 
   if (method == "rho")

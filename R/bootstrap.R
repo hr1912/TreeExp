@@ -30,16 +30,16 @@
 #' data(tetraexp)
 #' dismat <- expdist(tetraexp.objects, taxa = "all",
 #'                  subtaxa = "Brain",
-#'                  method = "rho")
+#'                  method = "sou")
 #' tr <- root(nj(dismat), "Chicken_Brain")
 #' plot(tr)
-#' bs <- boot.exphy(tr, tetraexp.objects, method = "rho",
+#' bs <- boot.exphy(tr, tetraexp.objects, method = "sou",
 #'                  B = 100, rooted = "Chicken_Brain")
 #' nodelabels(bs)
 #'
 
 boot.exphy = function (phy = NULL, objects = NULL,
-                         method = c("rho","brownian", "gu2013", "euc", "cos","jsd"),
+                         method = c("sou", "ced", "rho", "souln", "nbdln", "euc", "cos", "jsd"),
                          B = 100, rooted = NULL, trees = FALSE)
 {
 
@@ -103,25 +103,43 @@ boot.exphy = function (phy = NULL, objects = NULL,
 
     gene_index <- unlist(sample(y, replace = T))
 
-    if (method == "gu2013") {
+
+    if (method == "sou") {
+
+      meanRPKM.samp <- meanRPKM[gene_index,]
+
+      dis.mat <- dist.sou(meanRPKM.samp)
+
+    }
+
+
+    if (method == "ced") {
+
+      meanRPKM.samp <- meanRPKM[gene_index,]
+
+      dis.mat <- dist.ced(meanRPKM.samp)
+
+    }
+
+    if (method == "nbdln") {
 
       reads.count.samp <- reads.count[gene_index,]
       gene_length.samp <- gene_length[gene_index,]
 
       omega.samp <- estomega.sample(objects.sub,gene_index)
 
-      dis.mat <- dist.gu2013(reads.count.samp, gene_length.samp, omega.samp)
+      dis.mat <- dist.nbdln(reads.count.samp, gene_length.samp, omega.samp)
 
       #browser()
     }
 
 
-    if (method == "brownian") {
+    if (method == "souln") {
 
       reads.count.samp <- reads.count[gene_index,]
       gene_length.samp <- gene_length[gene_index,]
 
-      dis.mat <- dist.brownian(reads.count.samp, gene_length.samp)
+      dis.mat <- dist.souln(reads.count.samp, gene_length.samp)
 
 
     }
@@ -164,7 +182,7 @@ boot.exphy = function (phy = NULL, objects = NULL,
     colnames(dis.mat) = taxon.names
 
     #browser()
-    
+
     if (!is.null(rooted))
       boot.tree[[n]] <- root(nj(dis.mat),rooted)
     else

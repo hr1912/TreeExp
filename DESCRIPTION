@@ -1,8 +1,8 @@
 Package: phyExp
 Type: Package
 Title: the R package for phylogenetic analysis of expression data
-Version: 1.0
-Date: 2016-02-07
+Version: 1.1
+Date: 2016-03-20
 Author: Hang Ruan <hang.ruan@hotmail.com>
 Maintainer: Hang Ruan <hang.ruan@hotmail.com>
 Depends: R (>= 3.0.0), ape
