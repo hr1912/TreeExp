@@ -160,10 +160,10 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all",
 
   #browser()
   if (method == "sou")
-    dis.mat <- dis.sou(meanRPKM)
+    dis.mat <- dist.sou(meanRPKM)
 
   if (method == "ced")
-    dis.mat <- dis.ced(meanRPKM)
+    dis.mat <- dist.ced(meanRPKM)
 
   if (method == "nbdln")
     dis.mat <- dist.ndbln(reads.count,gene_length,omega)
