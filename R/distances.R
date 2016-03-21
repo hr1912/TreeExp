@@ -316,7 +316,7 @@ dist.sou = function (meanRPKM = NULL) {
       V22 <- var(log2(meanRPKM[,j]+1))
       V12 <- cov(log2(meanRPKM[,i]+1), log2(meanRPKM[,j]+1))
 
-      dis.mat[j,i] <- -log(V12/sqrt(V11*V12))
+      dis.mat[j,i] <- -log(V12/sqrt(V11*V22))
 
     }
 
