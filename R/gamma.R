@@ -56,7 +56,7 @@ estgamma = function (objects = NULL, taxa = NULL, subtaxa = NULL,
 {
   #if(verbose) message(date())
 
-  if (is.null(objects) || class(objects) != "taxaexp") {
+  if (is.null(objects) || class(objects) != "taxaExp") {
     stop(paste0(date(), ": no valid taxaexp objects input"))
   }
 

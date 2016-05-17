@@ -22,7 +22,7 @@ devtools::install_github("hr1912/phyExp")
 Load the package in the usual way:
 
 ```{r}
-library(phyExp)
+library('phyExp')
 ```
 
 The construction function `TEconstruct` loads in the reads count data file as well as a gene infomation file (gene lengths and ortholog), and wraps them in a list of *taxonExp* objects (one *taxaExp* object).

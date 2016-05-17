@@ -17,7 +17,7 @@ package:
 
 Load the package in the usual way:
 
-    library(phyExp)
+    library('phyExp')
 
 The construction function `TEconstruct` loads in the reads count data
 file as well as a gene infomation file (gene lengths and ortholog), and
