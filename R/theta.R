@@ -1,11 +1,13 @@
 #' @title Estimating theta values from a distance matrix.
 #'
 #' @name esttheta
+#'
 #' @rdname theta
 #'
 #' @param disMat a distance matrix with column and row names
 #'
-#' @return returns a vector of theta numbers, each corresponded to a .
+#' @return returns a vector of theta numbers,
+#' each corresponded to a quartet in the distance matrix.
 #'
 #' @details
 #'

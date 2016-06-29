@@ -344,8 +344,8 @@ dist.ced = function (meanRPKM = NULL) {
       V22 <- var(log2(meanRPKM[,j]+1))
       V12 <- cov(log2(meanRPKM[,i]+1), log2(meanRPKM[,j]+1))
 
-      dis.mat[j,i] <- V11+V22-2*V12
-      #dis.mat[j,i] <- (euc.dist(log2(meanRPKM[,i]+1),log2(meanRPKM[,j]+1)))^2 / gene_n
+      #dis.mat[j,i] <- V11+V22-2*V12
+      dis.mat[j,i] <- (euc.dist(log2(meanRPKM[,i]+1),log2(meanRPKM[,j]+1)))^2 / gene_n
 
     }
 
