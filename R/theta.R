@@ -10,7 +10,8 @@
 #' quartet: vector of theta numbers,
 #' each corresponded to a quartet in the distance matrix.
 #' taxa: matrix of theta numbers,
-#' colnames corresponded to taxa
+#' colnames corresponded to taxaNames
+#' taxaNames: vector of taxaNames
 #'
 #' @details
 #'
@@ -37,9 +38,7 @@ esttheta = function(disMat = NULL) {
   theta.quartet <- vector(mode = "numeric", length = length(allCombn[1,]))
 
   theta.taxa <- matrix(-1, nr = choose(taxaNumber-1,3), nc = taxaNumber)
-  names(theta.taxa) <- taxaNames
-
-  #theta.taxa <- NULL
+  #names(theta.taxa) <- taxaNames
 
   #theta.quartet <- numeric(length=length(allCombn[1,]))
   for (i in 1:length(allCombn[1,])) {
@@ -75,6 +74,6 @@ esttheta = function(disMat = NULL) {
 
   theta.taxa <- as.data.frame(theta.taxa)
 
-  return(list(quartet = theta.quartet, taxa = theta.taxa))
+  return(list(quartet = theta.quartet, taxa = theta.taxa, taxaNames = taxaNames))
 
 }
