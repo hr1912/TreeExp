@@ -73,6 +73,8 @@ esttheta = function(disMat = NULL) {
 
   }
 
+  theta.taxa <- as.data.frame(theta.taxa)
+
   return(list(quartet = theta.quartet, taxa = theta.taxa))
 
 }
