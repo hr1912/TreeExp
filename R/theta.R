@@ -14,7 +14,7 @@
 #'
 #' @details
 #'
-#' @export
+#' @export esttheta
 #'
 #' @examples
 #' data(tetraexp)
@@ -56,7 +56,7 @@ esttheta = function(disMat = NULL) {
                               sixValues[2]+sixValues[5],
                               sixValues[1]+sixValues[6]))
 
-    theta[i] <- (threeQuantities[3] - threeQuantities[2]) / (threeQuantities[3] - threeQuantities[1])
+    theta.quartet[i] <- (threeQuantities[3] - threeQuantities[2]) / (threeQuantities[3] - threeQuantities[1])
 
     for (j in 1:4) {
 
