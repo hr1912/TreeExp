@@ -39,7 +39,7 @@
 #'
 
 boot.exphy = function (phy = NULL, objects = NULL,
-                         method = c("sou", "ced", "rho", "souln", "nbdln", "euc", "cos", "jsd"),
+                         method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"),
                          B = 100, rooted = NULL, trees = FALSE)
 {
 
@@ -144,11 +144,11 @@ boot.exphy = function (phy = NULL, objects = NULL,
 
     }
 
-    if (method == "rho") {
+    if (method == "pea") {
 
       meanRPKM.samp <- meanRPKM[gene_index,]
 
-      dis.mat <- dist.rho(meanRPKM.samp)
+      dis.mat <- dist.pea(meanRPKM.samp)
 
     }
 

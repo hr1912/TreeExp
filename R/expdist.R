@@ -31,7 +31,7 @@
 #'
 #'
 expdist = function (objects = NULL, taxa = "all", subtaxa = "all",
-                    method = c("sou", "ced", "rho", "souln", "nbdln", "euc", "cos", "jsd"))
+                    method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"))
 {
   #if(verbose) message(date())
 
@@ -171,8 +171,8 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all",
   if (method == "souln")
     dis.mat <- dist.brownian(reads.count,gene_length)
 
-  if (method == "rho")
-    dis.mat <- dist.rho(meanRPKM)
+  if (method == "pea")
+    dis.mat <- dist.pea(meanRPKM)
 
   if (method == "euc")
     dis.mat <- dist.euc(meanRPKM)

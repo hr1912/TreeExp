@@ -21,7 +21,7 @@
 #' data(tetraexp)
 #' dis.mat <- expdist(tetraexp.objects, taxa = "all",
 #'                      subtaxa = "Brain",
-#'                      method = "rho")
+#'                      method = "pea")
 #' thetas <- esttheta(dis.mat)
 #' hist(thetas$quartet)
 #'
@@ -36,6 +36,7 @@ esttheta = function(disMat = NULL) {
 
   # for all the combinations  of quartet c(n,4)
   theta.quartet <- vector(mode = "numeric", length = length(allCombn[1,]))
+
 
   theta.taxa <- matrix(-1, nr = choose(taxaNumber-1,3), nc = taxaNumber)
   #names(theta.taxa) <- taxaNames
@@ -72,7 +73,7 @@ esttheta = function(disMat = NULL) {
 
   }
 
-  theta.taxa <- as.data.frame(theta.taxa)
+  #theta.taxa <- as.data.frame(theta.taxa)
 
   return(list(quartet = theta.quartet, taxa = theta.taxa, taxaNames = taxaNames))
 

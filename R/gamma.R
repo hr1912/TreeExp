@@ -46,13 +46,13 @@ solveAnEquation <- function( left = NULL ) {
 #' data(tetraexp)
 #' gamma.df <- estgamma(tetraexp.objects, taxa = "all",
 #'                      subtaxa = c("Brain", "Cerebellum"),
-#'                      method = "rho")
+#'                      method = "pea")
 #' gamma.df
 #'
 #' @references
 #'
 estgamma = function (objects = NULL, taxa = NULL, subtaxa = NULL,
-                    method = c("sou", "ced", "rho", "souln", "nbdln", "euc", "cos", "jsd"))
+                    method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"))
 {
   #if(verbose) message(date())
 

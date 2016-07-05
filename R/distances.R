@@ -222,9 +222,9 @@ dist.jsd = function (meanRPKM = NULL, taxon.names = NULL) {
 
 }
 
-# 1-rho distance
+# Pearson distance
 #' @rdname distances
-dist.rho = function (meanRPKM = NULL) {
+dist.pea = function (meanRPKM = NULL) {
 
   object_n <- ncol(meanRPKM)
   gene_n <- nrow(meanRPKM)
