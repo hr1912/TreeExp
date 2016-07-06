@@ -51,6 +51,5 @@ taxa.objects = TEconstruct(readsCountFP = system.file('extdata/tetraexp.reads.co
    geneInfoFP = system.file('extdata/tetraexp.gene.length.ortholog.txt', package = 'phyExp'),
    taxa = "all", subtaxa = c("Brain", "Cerebellum"), calRPKM = TRUE, rmOut =TRUE)
 
-
 }
 

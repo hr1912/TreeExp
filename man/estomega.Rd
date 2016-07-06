@@ -16,5 +16,6 @@ stored in the \code{taxonExp} objects}
 data(tetraexp)
 tetraexp.objects.with.omega <- estomega(tetraexp.objects)
 tetraexp.objects.with.omega[[1]]$omega
+
 }
 

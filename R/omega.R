@@ -13,8 +13,8 @@
 #' data(tetraexp)
 #' tetraexp.objects.with.omega <- estomega(tetraexp.objects)
 #' tetraexp.objects.with.omega[[1]]$omega
-
-
+#'
+#' @export
 estomega = function (objects = NULL, overwrite = TRUE) {
 
   object_n = length(objects)

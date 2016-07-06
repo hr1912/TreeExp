@@ -17,8 +17,6 @@
 #'
 #' @return returns an expression distance matrix
 #'
-#' @export
-#'
 #' @examples
 #' data(tetraexp)
 #' dismat <- expdist(tetraexp.objects, taxa = "all",
@@ -29,7 +27,7 @@
 #'
 #' @references
 #'
-#'
+#' @export
 expdist = function (objects = NULL, taxa = "all", subtaxa = "all",
                     method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"))
 {

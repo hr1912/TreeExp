@@ -4,8 +4,8 @@
 \alias{estgamma}
 \title{Estimating gamma from taxaExp objects.}
 \usage{
-estgamma(objects = NULL, taxa = NULL, subtaxa = NULL, method = c("rho",
-  "brownian", "gu2013", "euc", "cos", "jsd"))
+estgamma(objects = NULL, taxa = NULL, subtaxa = NULL, method = c("sou",
+  "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"))
 }
 \arguments{
 \item{objects}{a vector of objects of class \code{taxonExp} or an object of class \code{taxaExp}}
@@ -33,7 +33,7 @@ returns a data frame of six columns, refer to details for more information.
 data(tetraexp)
 gamma.df <- estgamma(tetraexp.objects, taxa = "all",
                      subtaxa = c("Brain", "Cerebellum"),
-                     method = "rho")
+                     method = "pea")
 gamma.df
 
 }

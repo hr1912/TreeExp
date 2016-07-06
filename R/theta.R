@@ -15,8 +15,6 @@
 #'
 #' @details
 #'
-#' @export esttheta
-#'
 #' @examples
 #' data(tetraexp)
 #' dis.mat <- expdist(tetraexp.objects, taxa = "all",
@@ -27,6 +25,7 @@
 #'
 #' @references
 #'
+#' @export
 esttheta = function(disMat = NULL) {
 
   taxaNames <- row.names(disMat)

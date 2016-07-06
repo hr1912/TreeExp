@@ -51,6 +51,7 @@ solveAnEquation <- function( left = NULL ) {
 #'
 #' @references
 #'
+#' @export
 estgamma = function (objects = NULL, taxa = NULL, subtaxa = NULL,
                     method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"))
 {

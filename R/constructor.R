@@ -34,15 +34,13 @@
 #'
 #' @return returns an object of class \code{Taxa} (S3 class, a list of \code{taxonExp} objects).
 #'
-#' @export
-#'
 #' @examples
 #'
 #' taxa.objects = TEconstruct(readsCountFP = system.file('extdata/tetraexp.reads.count.raw.txt', package = 'phyExp'),
 #'    geneInfoFP = system.file('extdata/tetraexp.gene.length.ortholog.txt', package = 'phyExp'),
 #'    taxa = "all", subtaxa = c("Brain", "Cerebellum"), calRPKM = TRUE, rmOut =TRUE)
 #'
-#'
+#' @export
 TEconstruct = function(readsCountFP=NULL, geneInfoFP=NULL, taxa="all", subtaxa="all",
                        calRPKM=TRUE, rmOut=TRUE, verbose=FALSE) {
 
@@ -166,7 +164,7 @@ TEconstruct = function(readsCountFP=NULL, geneInfoFP=NULL, taxa="all", subtaxa="
     names <- strsplit(colnames(reads.count.df)[idx],"_")
     repttl <- unlist(lapply(names, function(x) unlist(strsplit(x,"_"))[3])) # biological replicates title names
 
-    
+
     # get gene names and lengths
 
     gene_info = gene.info.df[grep(ttl,colnames(gene.info.df), ignore.case = T)]
@@ -176,7 +174,7 @@ TEconstruct = function(readsCountFP=NULL, geneInfoFP=NULL, taxa="all", subtaxa="
     gene_names <- tmp[1,]  # gene names
     gene_lengths <- as.integer(tmp[2,]) # gene lengths
 
-    
+
     # foreach subtaxon
     bio_rep_n <- length(repttl) # biological replicates number
     omega <- NULL # omega estimated overdispersion parameter

@@ -23,8 +23,6 @@
 #'
 #' @rdname boot.exphy
 #'
-#' @export
-#'
 #' @examples
 #'
 #' data(tetraexp)
@@ -37,7 +35,7 @@
 #'                  B = 100, rooted = "Chicken_Brain")
 #' nodelabels(bs)
 #'
-
+#' @export
 boot.exphy = function (phy = NULL, objects = NULL,
                          method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"),
                          B = 100, rooted = NULL, trees = FALSE)

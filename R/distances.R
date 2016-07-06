@@ -19,6 +19,7 @@ kld = function (x,y) sum(x * log2(x/y))
 #' @references
 #'
 #' Distance based on negative bio distribution and log normal model
+#' @export
 dist.nbdln = function (reads.count = NULL, gene_length = NULL, omega = NULL) {
 
   object_n <- ncol(reads.count)
@@ -112,6 +113,8 @@ dist.nbdln = function (reads.count = NULL, gene_length = NULL, omega = NULL) {
 
 # distance based on stationary OU and Log normal model distance
 #' @rdname distances
+#'
+#' @export dist.souln
 dist.souln = function (reads.count = NULL, gene_length = NULL) {
 
 
@@ -200,6 +203,8 @@ dist.souln = function (reads.count = NULL, gene_length = NULL) {
 
 # Jesen-Shannon divergence
 #' @rdname distances
+#'
+#' @export dist.jsd
 dist.jsd = function (meanRPKM = NULL, taxon.names = NULL) {
 
   object_n <- ncol(meanRPKM)
@@ -224,6 +229,8 @@ dist.jsd = function (meanRPKM = NULL, taxon.names = NULL) {
 
 # Pearson distance
 #' @rdname distances
+#'
+#' @export dist.pea
 dist.pea = function (meanRPKM = NULL) {
 
   object_n <- ncol(meanRPKM)
@@ -236,7 +243,7 @@ dist.pea = function (meanRPKM = NULL) {
 
     for (j in (i+1):object_n) {
 
-      dis.mat[j,i] <- 1 - cor(log2(meanRPKM[,i]+1),log2(meanRPKM[,j]+1),method = "spearman")
+      dis.mat[j,i] <- 1 - cor(log2(meanRPKM[,i]+1),log2(meanRPKM[,j]+1))
 
     }
 
@@ -251,6 +258,8 @@ dist.pea = function (meanRPKM = NULL) {
 
 # Euclidean distance
 #' @rdname distances
+#'
+#' @export dist.euc
 dist.euc = function (meanRPKM = NULL) {
 
 
@@ -276,6 +285,8 @@ dist.euc = function (meanRPKM = NULL) {
 
 # Cosine distance
 #' @rdname distances
+#'
+#' @export dist.cos
 dist.cos = function (meanRPKM = NULL) {
 
   object_n <- ncol(meanRPKM)
@@ -300,6 +311,8 @@ dist.cos = function (meanRPKM = NULL) {
 
 # Distance based on stationary Ornstein-Uhlenback model
 #' @rdname distances
+#'
+#' @export dist.sou
 dist.sou = function (meanRPKM = NULL) {
 
   object_n <- ncol(meanRPKM)
@@ -328,6 +341,8 @@ dist.sou = function (meanRPKM = NULL) {
 
 # Converntional expression distance
 #' @rdname distances
+#'
+#' @export dist.ced
 dist.ced = function (meanRPKM = NULL) {
 
   object_n <- ncol(meanRPKM)

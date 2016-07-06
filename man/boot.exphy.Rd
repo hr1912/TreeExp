@@ -4,8 +4,9 @@
 \alias{boot.exphy}
 \title{Bootstrapping expression phylogeny}
 \usage{
-boot.exphy(phy = NULL, objects = NULL, method = c("rho", "brownian",
-  "gu2013", "euc", "cos", "jsd"), B = 100, rooted = NULL, trees = FALSE)
+boot.exphy(phy = NULL, objects = NULL, method = c("sou", "ced", "pea",
+  "souln", "nbdln", "euc", "cos", "jsd"), B = 100, rooted = NULL,
+  trees = FALSE)
 }
 \arguments{
 \item{phy}{an object of class \code{phylo}.}
@@ -36,10 +37,10 @@ bootstrap by resampling gene (gene, transcript, exon, etc..)
 data(tetraexp)
 dismat <- expdist(tetraexp.objects, taxa = "all",
                  subtaxa = "Brain",
-                 method = "rho")
+                 method = "sou")
 tr <- root(nj(dismat), "Chicken_Brain")
 plot(tr)
-bs <- boot.exphy(tr, tetraexp.objects, method = "rho",
+bs <- boot.exphy(tr, tetraexp.objects, method = "sou",
                  B = 100, rooted = "Chicken_Brain")
 nodelabels(bs)
 
