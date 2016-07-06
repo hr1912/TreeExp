@@ -114,7 +114,7 @@ dist.nbdln = function (reads.count = NULL, gene_length = NULL, omega = NULL) {
 # distance based on stationary OU and Log normal model distance
 #' @rdname distances
 #'
-#' @export dist.souln
+#' @export
 dist.souln = function (reads.count = NULL, gene_length = NULL) {
 
 
@@ -204,7 +204,7 @@ dist.souln = function (reads.count = NULL, gene_length = NULL) {
 # Jesen-Shannon divergence
 #' @rdname distances
 #'
-#' @export dist.jsd
+#' @export
 dist.jsd = function (meanRPKM = NULL, taxon.names = NULL) {
 
   object_n <- ncol(meanRPKM)
@@ -230,7 +230,7 @@ dist.jsd = function (meanRPKM = NULL, taxon.names = NULL) {
 # Pearson distance
 #' @rdname distances
 #'
-#' @export dist.pea
+#' @export
 dist.pea = function (meanRPKM = NULL) {
 
   object_n <- ncol(meanRPKM)
@@ -259,7 +259,7 @@ dist.pea = function (meanRPKM = NULL) {
 # Euclidean distance
 #' @rdname distances
 #'
-#' @export dist.euc
+#' @export
 dist.euc = function (meanRPKM = NULL) {
 
 
@@ -312,7 +312,7 @@ dist.cos = function (meanRPKM = NULL) {
 # Distance based on stationary Ornstein-Uhlenback model
 #' @rdname distances
 #'
-#' @export dist.sou
+#' @export
 dist.sou = function (meanRPKM = NULL) {
 
   object_n <- ncol(meanRPKM)
@@ -342,7 +342,7 @@ dist.sou = function (meanRPKM = NULL) {
 # Converntional expression distance
 #' @rdname distances
 #'
-#' @export dist.ced
+#' @export
 dist.ced = function (meanRPKM = NULL) {
 
   object_n <- ncol(meanRPKM)
