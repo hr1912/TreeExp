@@ -12,6 +12,7 @@
 #' calculating expression distance.
 #' If one singke character "all" is given,
 #' all the subtaxa included in the \code{taxaExp} will be matched and selected ("all" by default).
+#' @param rowindex a vector of numbers corresponded to indices of selecting rows
 #' @param method specifying which distance method to be used
 #' to estimate expression phylogeny in bootstrapping.
 #'
@@ -28,7 +29,7 @@
 #' @references
 #'
 #' @export
-expdist = function (objects = NULL, taxa = "all", subtaxa = "all",
+expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NULL,
                     method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"))
 {
   #if(verbose) message(date())
@@ -153,6 +154,15 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all",
       meanRPKM[,i] = apply(objects[[i]]$rpkm.raw,1,mean)
     else
       meanRPKM[,i] = apply(objects[[i]]$rpkm.rmOut,1,mean)
+
+  }
+
+  if (!is.null(rowindex)) {
+
+    meanRPKM <- meanRPKM[rowindex,]
+
+    reads.count <- reads.count[rowindex,]
+    gene_length <- gene_length[rowindex,]
 
   }
 

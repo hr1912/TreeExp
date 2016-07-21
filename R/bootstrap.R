@@ -7,6 +7,7 @@
 #'
 #' @param phy an object of class \code{phylo}.
 #' @param objects a vector of objects of class \code{taxonExp} or an object of class \code{taxaExp}.
+#' @param rowindex a vector of numbers corresponded to indices of selecting rows
 #' @param method  specifying which distance method to be used
 #' to estimate expression phylogeny in bootstrapping.
 #' @param B the number of bootstrap replicates.
@@ -36,7 +37,7 @@
 #' nodelabels(bs)
 #'
 #' @export
-boot.exphy = function (phy = NULL, objects = NULL,
+boot.exphy = function (phy = NULL, objects = NULL, rowindex = NULL,
                          method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"),
                          B = 100, rooted = NULL, trees = FALSE)
 {
@@ -91,11 +92,24 @@ boot.exphy = function (phy = NULL, objects = NULL,
 
   }
 
+  if (!is.null(rowindex)) {
+
+    reads.count = reads.count[rowindex,]
+    gene_length = gene_length[rowindex,]
+
+    meanRPKM = meanRPKM[rowindex,]
+
+  }
+
   boot.tree <- vector("list",B)
 
   progbar <- txtProgressBar(style = 3)
 
-  y <- gene_n
+  if (is.null(rowindex)) {
+    y <- gene_n
+  } else {
+    y <- length(rowindex)
+  }
 
   for (n in 1:B) {
 
