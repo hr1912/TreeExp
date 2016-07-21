@@ -4,8 +4,8 @@
 \alias{expdist}
 \title{Generate a distance matrix from a taxaExp class}
 \usage{
-expdist(objects = NULL, taxa = "all", subtaxa = "all", method = c("sou",
-  "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"))
+expdist(objects = NULL, taxa = "all", subtaxa = "all", rowindex = NULL,
+  method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"))
 }
 \arguments{
 \item{objects}{a vector of objects of class \code{taxonExp} or an object of class \code{taxaExp}}
@@ -19,6 +19,8 @@ all the taxa included in the \code{taxaExp} will be matched and selected ("all" 
 calculating expression distance.
 If one singke character "all" is given,
 all the subtaxa included in the \code{taxaExp} will be matched and selected ("all" by default).}
+
+\item{rowindex}{a vector of numbers corresponded to indices of selecting rows}
 
 \item{method}{specifying which distance method to be used
 to estimate expression phylogeny in bootstrapping.}

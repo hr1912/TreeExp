@@ -4,14 +4,16 @@
 \alias{boot.exphy}
 \title{Bootstrapping expression phylogeny}
 \usage{
-boot.exphy(phy = NULL, objects = NULL, method = c("sou", "ced", "pea",
-  "souln", "nbdln", "euc", "cos", "jsd"), B = 100, rooted = NULL,
-  trees = FALSE)
+boot.exphy(phy = NULL, objects = NULL, rowindex = NULL,
+  method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"),
+  B = 100, rooted = NULL, trees = FALSE)
 }
 \arguments{
 \item{phy}{an object of class \code{phylo}.}
 
 \item{objects}{a vector of objects of class \code{taxonExp} or an object of class \code{taxaExp}.}
+
+\item{rowindex}{a vector of numbers corresponded to indices of selecting rows}
 
 \item{method}{specifying which distance method to be used
 to estimate expression phylogeny in bootstrapping.}
