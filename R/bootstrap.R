@@ -211,26 +211,15 @@ boot.exphy = function (phy = NULL, objects = NULL, rowindex = NULL,
 
   #browser()
 
-  if (!is.null(rooted)) {
-
-    pp <- prop.part(boot.tree)
-    ans <- prop.clades(phy, part = pp, rooted = !is.null(rooted))
-
-  } else {
-
-    phy <- reorder(phy, "postorder")
-    ints <- phy$edge[,2] > Ntip(phy)
-    ans <- countBipartitions(phy, boot.tree)
-    ans <- c(B, ans[order(phy$edge[ints, 2])])
-
-  }
+  pp <- prop.part(boot.tree)
+  ans <- prop.clades(phy, part = pp, rooted = !is.null(rooted))
 
   if (trees) {
     class(boot.tree) <- "multiPhylo"
     ans <- list(BP = ans, trees = boot.tree)
   }
 
-  message(paste0(date(), ": done bootstapping"))
+  message(paste0(date(), ": done bootstrapping"))
 
   ans
 
