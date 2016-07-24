@@ -20,6 +20,5 @@ NULL.
 data(tetraexp)
 print(tetraexp.objects, details = TRUE)
 
-
 }
 
