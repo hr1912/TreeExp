@@ -50,8 +50,9 @@ solveAnEquation <- function( left = NULL ) {
 #' gamma.df
 #'
 #' @references
+#' Gu,X. 2016. Understanding tissue expression evolution: from expression phylogeny to phylogenetic network.
+#' Brief. Bioinformatics, 17, 249–254.
 #'
-#' @export
 estgamma = function (objects = NULL, taxa = NULL, subtaxa = NULL,
                     method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"))
 {

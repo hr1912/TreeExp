@@ -6,13 +6,12 @@
 #' @param ... further arguments passed to or from other methods.
 #'
 #' @return NULL.
-#' @export
 #'
 #' @examples
 #' data(tetraexp)
 #' print(tetraexp.objects, details = TRUE)
 #'
-#'
+#' @export
 print.taxaExp <- function(objects, details = FALSE, ...) {
 
   N <- length(objects)

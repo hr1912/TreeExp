@@ -1,15 +1,15 @@
-#' @title Estimating theta values from a distance matrix.
+#' @title Estimating delta values from a distance matrix.
 #'
-#' @name esttheta
+#' @name estdelta
 #'
-#' @rdname theta
+#' @rdname delta
 #'
 #' @param disMat a distance matrix with column and row names
 #'
 #' @return returns a list of two,
-#' quartet: vector of theta numbers,
+#' quartet: vector of delta numbers,
 #' each corresponded to a quartet in the distance matrix.
-#' taxa: matrix of theta numbers,
+#' taxa: matrix of delta numbers,
 #' colnames corresponded to taxaNames
 #' taxaNames: vector of taxaNames
 #'
@@ -20,13 +20,15 @@
 #' dis.mat <- expdist(tetraexp.objects, taxa = "all",
 #'                      subtaxa = "Brain",
 #'                      method = "pea")
-#' thetas <- esttheta(dis.mat)
-#' hist(thetas$quartet)
+#' deltas <- estdelta(dis.mat)
+#' hist(deltas$quartet)
 #'
 #' @references
+#' Holland,B.R. et al. 2002. Delta plots: a tool for analyzing phylogenetic distance data.
+#' Mol. Biol. Evol., 19, 2051–2059.
 #'
 #' @export
-esttheta = function(disMat = NULL) {
+estdelta = function(disMat = NULL) {
 
   taxaNames <- row.names(disMat)
   taxaNumber <- length(taxaNames)
@@ -34,13 +36,13 @@ esttheta = function(disMat = NULL) {
   allCombn <- combn(taxaNumber, 4)
 
   # for all the combinations  of quartet c(n,4)
-  theta.quartet <- vector(mode = "numeric", length = length(allCombn[1,]))
+  delta.quartet <- vector(mode = "numeric", length = length(allCombn[1,]))
 
 
-  theta.taxa <- matrix(-1, nr = choose(taxaNumber-1,3), nc = taxaNumber)
-  #names(theta.taxa) <- taxaNames
+  delta.taxa <- matrix(-1, nr = choose(taxaNumber-1,3), nc = taxaNumber)
+  #names(delta.taxa) <- taxaNames
 
-  #theta.quartet <- numeric(length=length(allCombn[1,]))
+  #delta.quartet <- numeric(length=length(allCombn[1,]))
   for (i in 1:length(allCombn[1,])) {
 
     aCombn <- allCombn[,i]
@@ -55,14 +57,14 @@ esttheta = function(disMat = NULL) {
                               sixValues[2]+sixValues[5],
                               sixValues[1]+sixValues[6]))
 
-    theta.quartet[i] <- (threeQuantities[3] - threeQuantities[2]) / (threeQuantities[3] - threeQuantities[1])
+    delta.quartet[i] <- (threeQuantities[3] - threeQuantities[2]) / (threeQuantities[3] - threeQuantities[1])
 
     for (j in 1:4) {
 
-      for (k in 1:length(theta.taxa[,aCombn[j]])) {
+      for (k in 1:length(delta.taxa[,aCombn[j]])) {
 
-        if (theta.taxa[k, aCombn[j]] == -1) {
-          theta.taxa[k, aCombn[j]] <- theta.quartet[i]
+        if (delta.taxa[k, aCombn[j]] == -1) {
+          delta.taxa[k, aCombn[j]] <- delta.quartet[i]
           break
         }
 
@@ -72,8 +74,8 @@ esttheta = function(disMat = NULL) {
 
   }
 
-  #theta.taxa <- as.data.frame(theta.taxa)
+  #delta.taxa <- as.data.frame(delta.taxa)
 
-  return(list(quartet = theta.quartet, taxa = theta.taxa, taxaNames = taxaNames))
+  return(list(quartet = delta.quartet, taxa = delta.taxa, taxaNames = taxaNames))
 
 }

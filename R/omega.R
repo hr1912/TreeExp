@@ -14,6 +14,10 @@
 #' tetraexp.objects.with.omega <- estomega(tetraexp.objects)
 #' tetraexp.objects.with.omega[[1]]$omega
 #'
+#' @references
+#' Gu,X. et al. 2013. Phylogenomic distance method for analyzing transcriptome evolution based on RNA-seq data.
+#' Genome Biol Evol, 5, 1746–1753.
+#'
 #' @export
 estomega = function (objects = NULL, overwrite = TRUE) {
 
