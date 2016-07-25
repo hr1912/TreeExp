@@ -78,7 +78,7 @@ estgamma = function (objects = NULL, taxa = NULL, subtaxa = NULL,
     subtaxa <- unique(unlist(lapply(objects, function(x) x$subTaxon.name)))
   }
 
-  disMat <- expdist(objects, taxa, subtaxa, method)
+  disMat <- expdist(objects = objects, taxa = taxa, subtaxa = subtaxa, method = method)
 
   #browser()
 
