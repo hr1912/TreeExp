@@ -174,7 +174,7 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NU
     dis.mat <- dist.ced(meanRPKM)
 
   if (method == "nbdln")
-    dis.mat <- dist.ndbln(reads.count,gene_length,omega)
+    dis.mat <- dist.nbdln(reads.count,gene_length,omega)
 
   if (method == "souln")
     dis.mat <- dist.brownian(reads.count,gene_length)
