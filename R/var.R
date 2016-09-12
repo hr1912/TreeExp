@@ -1,36 +1,51 @@
-#‘
-#' @title Generate a distance matrix from a taxaExp class
-#'
-#' @name expdist
-#'
-#' @param objects a vector of objects of class \code{taxonExp} or an object of class \code{taxaExp}
-#' @param taxa one single character or a vector of characters specifying main taxa selected for
-#' calculating expression distance.
-#' If one single character "all" is given,
-#' all the taxa included in the \code{taxaExp} will be matched and selected ("all" by default).
-#' @param subtaxa one single character or a vector of characters sepcifying sub taxa selected for
-#' calculating expression distance.
-#' If one singke character "all" is given,
-#' all the subtaxa included in the \code{taxaExp} will be matched and selected ("all" by default).
-#' @param rowindex a vector of numbers corresponded to indices of selecting rows
-#' @param method specifying which distance method to be used
-#' to estimate expression phylogeny in bootstrapping.
-#'
-#' @return returns an expression distance matrix
-#'
-#' @examples
-#' data(tetraexp)
-#' dismat <- expdist(tetraexp.objects, taxa = "all",
-#'                  subtaxa = "Brain",
-#'                  method = "pea")
-#' tr <- root(NJ(dismat), "Chicken_Brain")
-#' plot(tr)
-#'
-#' @references
-#'
-#' @export
-expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NULL,
-                    method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"))
+
+
+cov.mat = function (meanRPKM = NULL) {
+
+  object_n <- ncol(meanRPKM)
+  #gene_n <- nrow(meanRPKM)
+
+  cov.mat <- matrix(0, nr = object_n, nc = object_n)
+
+
+  for (i in 1:(object_n-1)) {
+
+    for (j in (i+1):object_n) {
+
+      #V11 <- var(log2(meanRPKM[,i]+1))
+      #V22 <- var(log2(meanRPKM[,j]+1))
+      #V12 <- cov(log2(meanRPKM[,i]+1), log2(meanRPKM[,j]+1))
+
+      cov.mat[j,i] <- cov(log2(meanRPKM[,i]+1), log2(meanRPKM[,j]+1))
+
+    }
+
+  }
+
+  cov.mat
+
+}
+
+
+
+var.arr = function (meanRPKM = NULL) {
+
+  object_n <- ncol(meanRPKM)
+
+  var.array <- vector(mode="numeric", length=object_n)
+
+  for (i in 1:object_n) {
+
+    var.array[i] <- var(log2(meanRPKM[,i]+1))
+
+  }
+
+  var.array
+
+}
+
+
+estimate.variance = function (objects = NULL, taxa = "all", subtaxa = "all")
 {
   #if(verbose) message(date())
 
@@ -110,10 +125,6 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NU
 
   #browser()
 
-  method<-match.arg(method)
-
-  message(paste0(date(), ": using ", method, " to calculate pair-wise distance"))
-
   object_n <- length(objects)
 
   gene_n <- objects[[1]]$gene.num
@@ -157,43 +168,17 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NU
 
   }
 
-  if (!is.null(rowindex)) {
-
-    meanRPKM <- meanRPKM[rowindex,]
-
-    reads.count <- reads.count[rowindex,]
-    gene_length <- gene_length[rowindex,]
-
-  }
-
   #browser()
-  if (method == "sou")
-    dis.mat <- dist.sou(meanRPKM)
+  covariance.matrix <- cov.mat(meanRPKM)
+  variance.array <- var.arr(meanRPKM)
 
-  if (method == "ced")
-    dis.mat <- dist.ced(meanRPKM)
+  row.names(covariance.matrix) = taxon.names
+  colnames(covariance.matrix) = taxon.names
 
-  if (method == "nbdln")
-    dis.mat <- dist.nbdln(reads.count,gene_length,omega)
+  names(variance.array) = taxon.names
 
-  if (method == "souln")
-    dis.mat <- dist.brownian(reads.count,gene_length)
-
-  if (method == "pea")
-    dis.mat <- dist.pea(meanRPKM)
-
-  if (method == "euc")
-    dis.mat <- dist.euc(meanRPKM)
-
-  if (method == "cos")
-    dis.mat <- dist.cos(meanRPKM)
-
-  if (method == "jsd")
-    dis.mat <- dist.jsd(meanRPKM)
-
-  row.names(dis.mat) = taxon.names
-  colnames(dis.mat) = taxon.names
-
-  dis.mat
+  return(list(covariance.maxtrix= covariance.matrix, variance.array = variance.array))
 
 }
+
+

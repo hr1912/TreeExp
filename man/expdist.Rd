@@ -32,8 +32,8 @@ returns an expression distance matrix
 data(tetraexp)
 dismat <- expdist(tetraexp.objects, taxa = "all",
                  subtaxa = "Brain",
-                 method = "sou")
-tr <- root(nj(dismat), "Chicken_Brain")
+                 method = "pea")
+tr <- root(NJ(dismat), "Chicken_Brain")
 plot(tr)
 
 }

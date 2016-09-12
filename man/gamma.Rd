@@ -39,6 +39,6 @@ gamma.df
 }
 \references{
 Gu,X. 2016. Understanding tissue expression evolution: from expression phylogeny to phylogenetic network.
-Brief. Bioinformatics, 17, 249–254.
+Brief. Bioinformatics, 17, 249-254.
 }
 

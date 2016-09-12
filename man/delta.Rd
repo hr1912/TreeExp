@@ -31,6 +31,6 @@ hist(deltas$quartet)
 }
 \references{
 Holland,B.R. et al. 2002. Delta plots: a tool for analyzing phylogenetic distance data.
-Mol. Biol. Evol., 19, 2051–2059.
+Mol. Biol. Evol., 19, 2051-2059.
 }
 

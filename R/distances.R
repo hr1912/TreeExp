@@ -18,13 +18,13 @@ kld = function (x,y) sum(x * log2(x/y))
 #'
 #' @references
 #' Chen H, He X. 2016. The Convergent Cancer Evolution toward a Single Cellular Destination.
-#' Mol Biol Evol 33:4–12
+#' Mol Biol Evol 33:4-12
 #'
 #' Gu X, Su Z. 2007. Tissue-driven hypothesis of genomic evolution and sequence-expression correlations.
-#' Proc Natl Acad Sci USA 104:2779–2784.
+#' Proc Natl Acad Sci USA 104:2779-2784.
 #'
 #' Pereira V, Waxman D, Eyre-Walker A. 2009. A problem with the correlation coefficient as a measure of gene expression divergence.
-#' Genetics 183:1597–1600.
+#' Genetics 183:1597-1600.
 #'
 #' Sudmant PH, Alexis MS, Burge CB. 2015. Meta-analysis of RNA-seq expression data across species, tissues and studies.
 #' Genome Biol 16:287.

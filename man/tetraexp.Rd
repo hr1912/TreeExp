@@ -18,6 +18,6 @@ tetraexp.objects[[1]]
 }
 \references{
 Brawand,D. et al. (2011) The evolution of gene expression levels in mammalian organs.
-Nature, 478, 343–348.
+Nature, 478, 343-348.
 }
 

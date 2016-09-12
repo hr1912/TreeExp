@@ -30,7 +30,7 @@
 #' dismat <- expdist(tetraexp.objects, taxa = "all",
 #'                  subtaxa = "Brain",
 #'                  method = "sou")
-#' tr <- root(nj(dismat), "Chicken_Brain")
+#' tr <- root(NJ(dismat), "Chicken_Brain")
 #' plot(tr)
 #' bs <- boot.exphy(tr, tetraexp.objects, method = "sou",
 #'                  B = 100, rooted = "Chicken_Brain")

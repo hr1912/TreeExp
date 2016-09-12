@@ -7,7 +7,7 @@ use Data::Dumper;
 -----------------------------------------------------
 
 This script formats TopHat2 outputs into files 
-than can be directly taken in by 'PhyExp'
+than can be directly taken in by 'TreeExp'
 
 Input: a list of TopHat2 output UniqueReads files
 and a file contains orthlog gene ids
@@ -78,7 +78,7 @@ close LST;
 #print Dumper(\%readsCount);
 1;
 
-print "homoSapienGeneId";
+print "refTaxonGeneId";
 
 foreach (@bio_rep) {
 	print "\t$_";
