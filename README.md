@@ -6,7 +6,7 @@ evolution from *RNA-seq* data, including optimized input formatting,
 normalization and pair-wise distance evaluation, expression character
 tree inference and preliminary phylogenetic network analysis.
 
-*TreeExp* package is under active developing, current stable version 1.0
+*TreeExp* package is under active developing, current stable version 1.2
 is available at <https://github.com/hr1912/TreeExp>.
 
 A convenient way to install package from github is through *devtools*
@@ -17,7 +17,7 @@ package:
 
 Users can also download *TreeExp* package and install locally through:
 
-    install.packages("filePath/TreeExp.1.0.tar.gz", repos = NUll, type = "source")
+    install.packages("filePath/TreeExp.1.2.tar.gz", repos = NUll, type = "source")
 
 Load the package in the usual way:
 
@@ -57,7 +57,7 @@ The example files are included in the TreeExp package, which can be
 found in `extdata` folder in the package. One can load them in to take a
 look:
 
-    readsCount.table = read.table(system.file('extdata/tetraexp.reads.count.raw.txt', 
+    readsCount.table = read.table(system.file('extdata/tetraexp.read.counts.raw.txt', 
                                                 package='TreeExp'), header = T)
     head(readsCount.table[,1:10])
 
@@ -83,31 +83,38 @@ look:
     ## 5                     988                  1215              16913
     ## 6                    4987                 11862                878
 
-    geneInfo.table = read.table(system.file('extdata/tetraexp.gene.length.ortholog.txt',
+    geneInfo.table = read.table(system.file('extdata/tetraexp.length.ortholog.txt',
                                             package='TreeExp'), header = T)
     head(geneInfo.table)
 
-    ##                  Human              Chimpanzee                 Gorilla
-    ## 1 ENSG00000198824:3788 ENSPTRG00000023033:3786 ENSGGOG00000009918:3808
-    ## 2 ENSG00000118402:3042 ENSPTRG00000018370:2962 ENSGGOG00000009359:2890
-    ## 3 ENSG00000166167:6255 ENSPTRG00000002869:6153 ENSGGOG00000005023:5882
-    ## 4 ENSG00000144724:9524 ENSPTRG00000015067:6726 ENSGGOG00000006858:6049
-    ## 5 ENSG00000183508:5751 ENSPTRG00000001166:5717 ENSGGOG00000004149:5727
-    ## 6 ENSG00000008086:3576 ENSPTRG00000021711:2874 ENSGGOG00000010796:3354
-    ##                 Orangutan                 Macaque                   Mouse
-    ## 1 ENSPPYG00000005537:2442 ENSMMUG00000023599:3781 ENSMUSG00000047710:4040
-    ## 2  ENSPPYG00000016794:945 ENSMMUG00000020208:2960 ENSMUSG00000032262:2146
-    ## 3 ENSPPYG00000002583:6130 ENSMMUG00000006741:6001 ENSMUSG00000025217:2984
-    ## 4 ENSPPYG00000013752:4933 ENSMMUG00000012487:5949 ENSMUSG00000021745:9375
-    ## 5 ENSPPYG00000000972:1987 ENSMMUG00000004907:3522 ENSMUSG00000044468:5640
-    ## 6 ENSPPYG00000020166:3024 ENSMMUG00000005063:3077 ENSMUSG00000031292:3484
-    ##                   Opossum                Platypus                 Chicken
-    ## 1 ENSMODG00000003128:2568 ENSOANG00000000610:2487 ENSGALG00000016813:2412
-    ## 2  ENSMODG00000018420:945  ENSOANG00000001290:909 ENSGALG00000015876:1322
-    ## 3 ENSMODG00000011788:1888 ENSOANG00000007316:1936 ENSGALG00000007820:1962
-    ## 4 ENSMODG00000002722:4448 ENSOANG00000006011:3968 ENSGALG00000007177:5396
-    ## 5 ENSMODG00000023227:1194 ENSOANG00000003065:1335 ENSGALG00000014453:1179
-    ## 6 ENSMODG00000017140:2589 ENSOANG00000004037:2607 ENSGALG00000016529:2712
+    ##                  Human              Chimpanzee                  Bonobo
+    ## 1 ENSG00000198824:3788 ENSPTRG00000023033:3786 ENSPTRG00000023033:3786
+    ## 2 ENSG00000118402:3042 ENSPTRG00000018370:2962 ENSPTRG00000018370:2962
+    ## 3 ENSG00000166167:6255 ENSPTRG00000002869:6153 ENSPTRG00000002869:6153
+    ## 4 ENSG00000144724:9524 ENSPTRG00000015067:6726 ENSPTRG00000015067:6726
+    ## 5 ENSG00000183508:5751 ENSPTRG00000001166:5717 ENSPTRG00000001166:5717
+    ## 6 ENSG00000008086:3576 ENSPTRG00000021711:2874 ENSPTRG00000021711:2874
+    ##                   Gorilla               Orangutan                 Macaque
+    ## 1 ENSGGOG00000009918:3808 ENSPPYG00000005537:2442 ENSMMUG00000023599:3781
+    ## 2 ENSGGOG00000009359:2890  ENSPPYG00000016794:945 ENSMMUG00000020208:2960
+    ## 3 ENSGGOG00000005023:5882 ENSPPYG00000002583:6130 ENSMMUG00000006741:6001
+    ## 4 ENSGGOG00000006858:6049 ENSPPYG00000013752:4933 ENSMMUG00000012487:5949
+    ## 5 ENSGGOG00000004149:5727 ENSPPYG00000000972:1987 ENSMMUG00000004907:3522
+    ## 6 ENSGGOG00000010796:3354 ENSPPYG00000020166:3024 ENSMMUG00000005063:3077
+    ##                     Mouse                 Opossum                Platypus
+    ## 1 ENSMUSG00000047710:4040 ENSMODG00000003128:2568 ENSOANG00000000610:2487
+    ## 2 ENSMUSG00000032262:2146  ENSMODG00000018420:945  ENSOANG00000001290:909
+    ## 3 ENSMUSG00000025217:2984 ENSMODG00000011788:1888 ENSOANG00000007316:1936
+    ## 4 ENSMUSG00000021745:9375 ENSMODG00000002722:4448 ENSOANG00000006011:3968
+    ## 5 ENSMUSG00000044468:5640 ENSMODG00000023227:1194 ENSOANG00000003065:1335
+    ## 6 ENSMUSG00000031292:3484 ENSMODG00000017140:2589 ENSOANG00000004037:2607
+    ##                   Chicken
+    ## 1 ENSGALG00000016813:2412
+    ## 2 ENSGALG00000015876:1322
+    ## 3 ENSGALG00000007820:1962
+    ## 4 ENSGALG00000007177:5396
+    ## 5 ENSGALG00000014453:1179
+    ## 6 ENSGALG00000016529:2712
 
 ### Construction:
 
@@ -123,9 +130,9 @@ compatible" is available at `tools` folder in the package. Or you can
 access the script at
 <https://github.com/hr1912/TreeExp/blob/master/tools/format2treeexp.pl>
 
-    taxa.objects = TEconstruct(readsCountFP = system.file('extdata/tetraexp.reads.count.raw.txt', package='TreeExp'),
-      geneInfoFP = system.file('extdata/tetraexp.gene.length.ortholog.txt', package='TreeExp'), 
-      taxa = "all", subtaxa = c("Brain", "Cerebellum"), calRPKM=TRUE, rmOut=TRUE)
+    taxa.objects = TEconstruct(readCountsFP = system.file('extdata/tetraexp.read.counts.raw.txt', package='TreeExp'),
+      geneInfoFP = system.file('extdata/tetraexp.length.ortholog.txt', package='TreeExp'), 
+      taxa = "all", subtaxa = c("Brain", "Cerebellum"), normalize = "TPM")
 
 The construction process takes **several minutes** on a desktop computer
 depending on data size and hardware performance. Specify **"taxa"** and
@@ -141,7 +148,7 @@ You can take a look at what the loaded objects:
     print(tetraexp.objects, details = TRUE)
 
     ## 
-    ##  53 taxonExp objects 
+    ##  59 taxonExp objects 
     ## 
     ## object 1 : Human      Brain 
     ## object 2 : Human      Cerebellum 
@@ -155,47 +162,53 @@ You can take a look at what the loaded objects:
     ## object 10 : Chimpanzee    Kidney 
     ## object 11 : Chimpanzee    Liver 
     ## object 12 : Chimpanzee    Testis 
-    ## object 13 : Gorilla   Brain 
-    ## object 14 : Gorilla   Cerebellum 
-    ## object 15 : Gorilla   Heart 
-    ## object 16 : Gorilla   Kidney 
-    ## object 17 : Gorilla   Liver 
-    ## object 18 : Gorilla   Testis 
-    ## object 19 : Orangutan     Brain 
-    ## object 20 : Orangutan     Cerebellum 
-    ## object 21 : Orangutan     Heart 
-    ## object 22 : Orangutan     Kidney 
-    ## object 23 : Orangutan     Liver 
-    ## object 24 : Macaque   Brain 
-    ## object 25 : Macaque   Cerebellum 
-    ## object 26 : Macaque   Heart 
-    ## object 27 : Macaque   Kidney 
-    ## object 28 : Macaque   Liver 
-    ## object 29 : Macaque   Testis 
-    ## object 30 : Mouse     Brain 
-    ## object 31 : Mouse     Cerebellum 
-    ## object 32 : Mouse     Heart 
-    ## object 33 : Mouse     Kidney 
-    ## object 34 : Mouse     Liver 
-    ## object 35 : Mouse     Testis 
-    ## object 36 : Opossum   Brain 
-    ## object 37 : Opossum   Cerebellum 
-    ## object 38 : Opossum   Heart 
-    ## object 39 : Opossum   Kidney 
-    ## object 40 : Opossum   Liver 
-    ## object 41 : Opossum   Testis 
-    ## object 42 : Platypus      Brain 
-    ## object 43 : Platypus      Cerebellum 
-    ## object 44 : Platypus      Heart 
-    ## object 45 : Platypus      Kidney 
-    ## object 46 : Platypus      Liver 
-    ## object 47 : Platypus      Testis 
-    ## object 48 : Chicken   Brain 
-    ## object 49 : Chicken   Cerebellum 
-    ## object 50 : Chicken   Heart 
-    ## object 51 : Chicken   Kidney 
-    ## object 52 : Chicken   Liver 
-    ## object 53 : Chicken   Testis
+    ## object 13 : Bonobo    Brain 
+    ## object 14 : Bonobo    Cerebellum 
+    ## object 15 : Bonobo    Heart 
+    ## object 16 : Bonobo    Kidney 
+    ## object 17 : Bonobo    Liver 
+    ## object 18 : Bonobo    Testis 
+    ## object 19 : Gorilla   Brain 
+    ## object 20 : Gorilla   Cerebellum 
+    ## object 21 : Gorilla   Heart 
+    ## object 22 : Gorilla   Kidney 
+    ## object 23 : Gorilla   Liver 
+    ## object 24 : Gorilla   Testis 
+    ## object 25 : Orangutan     Brain 
+    ## object 26 : Orangutan     Cerebellum 
+    ## object 27 : Orangutan     Heart 
+    ## object 28 : Orangutan     Kidney 
+    ## object 29 : Orangutan     Liver 
+    ## object 30 : Macaque   Brain 
+    ## object 31 : Macaque   Cerebellum 
+    ## object 32 : Macaque   Heart 
+    ## object 33 : Macaque   Kidney 
+    ## object 34 : Macaque   Liver 
+    ## object 35 : Macaque   Testis 
+    ## object 36 : Mouse     Brain 
+    ## object 37 : Mouse     Cerebellum 
+    ## object 38 : Mouse     Heart 
+    ## object 39 : Mouse     Kidney 
+    ## object 40 : Mouse     Liver 
+    ## object 41 : Mouse     Testis 
+    ## object 42 : Opossum   Brain 
+    ## object 43 : Opossum   Cerebellum 
+    ## object 44 : Opossum   Heart 
+    ## object 45 : Opossum   Kidney 
+    ## object 46 : Opossum   Liver 
+    ## object 47 : Opossum   Testis 
+    ## object 48 : Platypus      Brain 
+    ## object 49 : Platypus      Cerebellum 
+    ## object 50 : Platypus      Heart 
+    ## object 51 : Platypus      Kidney 
+    ## object 52 : Platypus      Liver 
+    ## object 53 : Platypus      Testis 
+    ## object 54 : Chicken   Brain 
+    ## object 55 : Chicken   Cerebellum 
+    ## object 56 : Chicken   Heart 
+    ## object 57 : Chicken   Kidney 
+    ## object 58 : Chicken   Liver 
+    ## object 59 : Chicken   Testis
 
     print(tetraexp.objects[[1]], printlen = 6)
 
@@ -207,26 +220,27 @@ You can take a look at what the loaded objects:
     ## Total bio replicates number:  6 
     ## Bio replicates titles:
     ## [1] "Female" "Male1"  "Male2"  "Male3"  "Male4"  "Male5" 
-    ## Outliers removed
-    ## RPKM calculated
+    ## Outliers NOT removed
+    ## Normalized expression value calculated
+    ## Normalized method:  TPM 
     ## Over-dispersion parameter omega NOT calculated
 
-    head(tetraexp.objects[[1]]$rpkm.rmOut)
+    head(tetraexp.objects[[1]]$normExp.val)
 
     ##                 Human_Brain_Female Human_Brain_Male1 Human_Brain_Male2
-    ## ENSG00000198824          3.9537403          2.700015         4.7249655
-    ## ENSG00000118402          9.6165234          5.803756         9.7486326
-    ## ENSG00000166167         15.0663402         11.750193        20.7324083
-    ## ENSG00000144724          4.9151773          3.647462         4.2298271
-    ## ENSG00000183508          0.1576274          0.230219         0.1212518
-    ## ENSG00000008086          7.1428947          2.619155         5.3024556
+    ## ENSG00000198824          28.181700         22.882260          32.29216
+    ## ENSG00000118402          68.545215         49.186043          66.62576
+    ## ENSG00000166167         107.390735         99.581296         141.69295
+    ## ENSG00000144724          35.034687         30.911749          28.90820
+    ## ENSG00000183508           1.123546          1.951074           0.82868
+    ## ENSG00000008086          50.913540         22.196988          36.23894
     ##                 Human_Brain_Male3 Human_Brain_Male4 Human_Brain_Male5
-    ## ENSG00000198824        1.06624791        1.57950991        0.16543556
-    ## ENSG00000118402        2.96823408        0.35108469        0.41080529
-    ## ENSG00000166167        8.79342907        3.38905008        2.14353310
-    ## ENSG00000144724        2.37425609        0.38227016        0.54460011
-    ## ENSG00000183508        0.07275111        0.03621601        0.07275111
-    ## ENSG00000008086        3.32782585        0.65915070        0.49776269
+    ## ENSG00000198824        11.2300374        23.9962144          7.981515
+    ## ENSG00000118402        31.2623165         5.3337453         19.819491
+    ## ENSG00000166167        92.6149878        51.4870922        103.415744
+    ## ENSG00000144724        25.0063652         5.8075209         26.274483
+    ## ENSG00000183508         0.7662361         0.5502005          3.509911
+    ## ENSG00000008086        35.0496431        10.0139426         24.014791
 
 ### Distance matrix:
 
@@ -236,38 +250,38 @@ object. First, we generate a distance matrix:
     dismat <- expdist(tetraexp.objects, taxa = "all",
                      subtaxa = "Brain",
                      method = "pea")
-    dismat
+    as.dist(dismat)
 
-    ##                  Human_Brain Chimpanzee_Brain Gorilla_Brain
-    ## Human_Brain       0.00000000       0.00000000    0.00000000
-    ## Chimpanzee_Brain  0.04272425       0.00000000    0.00000000
-    ## Gorilla_Brain     0.06302204       0.05099573    0.00000000
-    ## Orangutan_Brain   0.09460563       0.07342807    0.06543296
-    ## Macaque_Brain     0.09178295       0.08056567    0.06950483
-    ## Mouse_Brain       0.16133517       0.15274712    0.15187221
-    ## Opossum_Brain     0.23696315       0.22046195    0.20750404
-    ## Platypus_Brain    0.27608779       0.26075046    0.25261355
-    ## Chicken_Brain     0.29903270       0.29092886    0.26943178
+    ##                  Human_Brain Chimpanzee_Brain Bonobo_Brain Gorilla_Brain
+    ## Chimpanzee_Brain  0.03928547                                            
+    ## Bonobo_Brain      0.05396989       0.02661905                           
+    ## Gorilla_Brain     0.04541838       0.04346133   0.05570732              
+    ## Orangutan_Brain   0.07441185       0.06650002   0.07418112    0.06650577
+    ## Macaque_Brain     0.07096816       0.07026106   0.07568838    0.07142640
+    ## Mouse_Brain       0.14753659       0.14734369   0.14570042    0.15773811
+    ## Opossum_Brain     0.21460036       0.21023433   0.20623812    0.22218695
+    ## Platypus_Brain    0.25206865       0.24840352   0.24224782    0.26264144
+    ## Chicken_Brain     0.27145998       0.27435377   0.26609183    0.27168518
     ##                  Orangutan_Brain Macaque_Brain Mouse_Brain Opossum_Brain
-    ## Human_Brain           0.00000000     0.0000000   0.0000000     0.0000000
-    ## Chimpanzee_Brain      0.00000000     0.0000000   0.0000000     0.0000000
-    ## Gorilla_Brain         0.00000000     0.0000000   0.0000000     0.0000000
-    ## Orangutan_Brain       0.00000000     0.0000000   0.0000000     0.0000000
-    ## Macaque_Brain         0.07304648     0.0000000   0.0000000     0.0000000
-    ## Mouse_Brain           0.14767685     0.1219459   0.0000000     0.0000000
-    ## Opossum_Brain         0.20089057     0.1860964   0.1752627     0.0000000
-    ## Platypus_Brain        0.24856272     0.2385429   0.2341083     0.2024356
-    ## Chicken_Brain         0.26518981     0.2420884   0.2394585     0.2593075
-    ##                  Platypus_Brain Chicken_Brain
-    ## Human_Brain           0.0000000             0
-    ## Chimpanzee_Brain      0.0000000             0
-    ## Gorilla_Brain         0.0000000             0
-    ## Orangutan_Brain       0.0000000             0
-    ## Macaque_Brain         0.0000000             0
-    ## Mouse_Brain           0.0000000             0
-    ## Opossum_Brain         0.0000000             0
-    ## Platypus_Brain        0.0000000             0
-    ## Chicken_Brain         0.2757437             0
+    ## Chimpanzee_Brain                                                        
+    ## Bonobo_Brain                                                            
+    ## Gorilla_Brain                                                           
+    ## Orangutan_Brain                                                         
+    ## Macaque_Brain         0.07718557                                        
+    ## Mouse_Brain           0.15908033    0.12541961                          
+    ## Opossum_Brain         0.22389360    0.19697327  0.17580708              
+    ## Platypus_Brain        0.26309704    0.23960607  0.22327274    0.20305429
+    ## Chicken_Brain         0.26891715    0.24476163  0.23916411    0.28310650
+    ##                  Platypus_Brain
+    ## Chimpanzee_Brain               
+    ## Bonobo_Brain                   
+    ## Gorilla_Brain                  
+    ## Orangutan_Brain                
+    ## Macaque_Brain                  
+    ## Mouse_Brain                    
+    ## Opossum_Brain                  
+    ## Platypus_Brain                 
+    ## Chicken_Brain        0.28657845
 
 You can specify **"taxa"** and **"subtaxa"** options in the `expdist`
 function as well. The default model **"pea"** is to calculate pair-wise

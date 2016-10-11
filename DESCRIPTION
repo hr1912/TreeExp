@@ -1,8 +1,8 @@
 Package: TreeExp
 Type: Package
 Title: the R package for analyzing expression evolution based on RNA-seq data
-Version: 1.1
-Date: 2016-09-11
+Version: 1.2
+Date: 2016-10-11
 Author: Hang Ruan <hang.ruan@hotmail.com>
 Maintainer: Hang Ruan <hang.ruan@hotmail.com>
 Depends: R (>= 3.0.0), ape

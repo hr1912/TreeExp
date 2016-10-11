@@ -40,10 +40,10 @@ estomega = function (objects = NULL, overwrite = TRUE) {
 
     if ((is.null(omega) || bio_rep_n ==1) && !overwrite ) next
 
-    reads.count.rmOut = objects[[i]]$readsCount.rmOut
+    read.counts.raw = objects[[i]]$readCounts.raw
 
-    if (is.null(reads.count.rmOut)) {
-      message("\n no outlier removed reads count data for object ", i,
+    if (is.null(read.counts.raw)) {
+      message("\n no raw read counts data for object ", i,
           "which is a prerequisite for omega estimation, skipping ...\n")
       next
     }
@@ -56,7 +56,7 @@ estomega = function (objects = NULL, overwrite = TRUE) {
     rk_var<-rep(0,bio_rep_n)
 
     for (j in 1:bio_rep_n) {
-      rk_var[j] <- sum(reads.count.rmOut[,j]) / gene_length_sum
+      rk_var[j] <- sum(read.counts.raw[,j]) / gene_length_sum
     }
 
     r0_var <- mean(rk_var)
@@ -69,35 +69,35 @@ estomega = function (objects = NULL, overwrite = TRUE) {
     b<- r0_var/rk_var
 
 
-    reads_count_exp <-rep(0,gene_n)
-    reads_count_square_exp<-rep(0,gene_n)
-    reads_count_exp_square<-rep(0,gene_n)
-    reads_count_var<-rep(0,gene_n)
+    read_counts_exp <-rep(0,gene_n)
+    read_counts_square_exp<-rep(0,gene_n)
+    read_counts_exp_square<-rep(0,gene_n)
+    read_counts_var<-rep(0,gene_n)
 
 
     for (k in 1:gene_n) {
 
       for (j in 1:bio_rep_n) {
 
-        reads_count_exp[k] <- reads_count_exp[k] + b[j] * as.numeric(reads.count.rmOut[k,j])
-        reads_count_square_exp[k] <- reads_count_square_exp[k] +  a[j] * (as.numeric(reads.count.rmOut[k,j]))^2
+        read_counts_exp[k] <- read_counts_exp[k] + b[j] * as.numeric(read.counts.raw[k,j])
+        read_counts_square_exp[k] <- read_counts_square_exp[k] +  a[j] * (as.numeric(read.counts.raw[k,j]))^2
 
       }
 
-      reads_count_exp[k] = reads_count_exp[k] / bio_rep_n  # m_i mean of reads count for each gene
-      reads_count_square_exp[k] = reads_count_square_exp[k] / bio_rep_n  #
+      read_counts_exp[k] = read_counts_exp[k] / bio_rep_n  # m_i mean of read counts for each gene
+      read_counts_square_exp[k] = read_counts_square_exp[k] / bio_rep_n  #
 
-      reads_count_var[k] = reads_count_square_exp[k] - reads_count_exp[k]^2 # V_i variance of reads count for each gene E[x2i] - (xi)2
-      reads_count_exp_square[k] = reads_count_exp[k]^2
+      read_counts_var[k] = read_counts_square_exp[k] - read_counts_exp[k]^2 # V_i variance of read counts for each gene E[x2i] - (xi)2
+      read_counts_exp_square[k] = read_counts_exp[k]^2
 
 
     }
 
-    sum_vi_var<-sum(reads_count_var)
-    #sum_mi_var<-sum(reads_count_exp)
+    sum_vi_var<-sum(read_counts_var)
+    #sum_mi_var<-sum(read_counts_exp)
 
-    #sum_mi_square_var <- sum(reads_count_square_exp)
-    sum_mi_square <- sum(reads_count_exp_square)
+    #sum_mi_square_var <- sum(read_counts_square_exp)
+    sum_mi_square <- sum(read_counts_exp_square)
 
 
     #omega<-(sum_vi_var-sum_mi_var) * gene_n / sum_mi_var^2
@@ -118,7 +118,7 @@ estomega = function (objects = NULL, overwrite = TRUE) {
 #'
 #' @name estomega.sample
 #'
-estomega.sample = function (objects = NULL, geneIndex = NULL) {
+.estomega.sample = function (objects = NULL, geneIndex = NULL) {
 
   objects_n = length(objects)
 
@@ -126,7 +126,7 @@ estomega.sample = function (objects = NULL, geneIndex = NULL) {
 
   for (i in 1:objects_n) {
 
-    reads.count.rmOut = objects[[i]]$readsCount.rmOut[geneIndex,]
+    read.counts.raw = objects[[i]]$readCounts.raw[geneIndex,]
 
     bio_rep_n = objects[[i]]$bioRep.num
     gene_n = objects[[i]]$gene.num
@@ -139,7 +139,7 @@ estomega.sample = function (objects = NULL, geneIndex = NULL) {
     rk_var<-rep(0,bio_rep_n)
 
     for (j in 1:bio_rep_n) {
-      rk_var[j] <- sum(reads.count.rmOut[,j]) / gene_length_sum
+      rk_var[j] <- sum(read.counts.raw[,j]) / gene_length_sum
     }
 
     r0_var <- mean(rk_var)
@@ -152,34 +152,34 @@ estomega.sample = function (objects = NULL, geneIndex = NULL) {
     b<- r0_var/rk_var
 
 
-    reads_count_exp <-rep(0,gene_n)
-    reads_count_square_exp<-rep(0,gene_n)
-    reads_count_exp_square<-rep(0,gene_n)
-    reads_count_var<-rep(0,gene_n)
+    read_counts_exp <-rep(0,gene_n)
+    read_counts_square_exp<-rep(0,gene_n)
+    read_counts_exp_square<-rep(0,gene_n)
+    read_counts_var<-rep(0,gene_n)
 
     for (k in 1:gene_n) {
 
       for (j in 1:bio_rep_n) {
 
-        reads_count_exp[k] <- reads_count_exp[k] + b[j] * as.numeric(reads.count.rmOut[k,j])
-        reads_count_square_exp[k] <- reads_count_square_exp[k] +  a[j] * (as.numeric(reads.count.rmOut[k,j]))^2
+        read_counts_exp[k] <- read_counts_exp[k] + b[j] * as.numeric(read.counts.raw[k,j])
+        read_counts_square_exp[k] <- read_counts_square_exp[k] +  a[j] * (as.numeric(read.counts.raw[k,j]))^2
 
       }
 
-      reads_count_exp[k] = reads_count_exp[k] / bio_rep_n
-      reads_count_square_exp[k] = reads_count_square_exp[k] / bio_rep_n
+      read_counts_exp[k] = read_counts_exp[k] / bio_rep_n
+      read_counts_square_exp[k] = read_counts_square_exp[k] / bio_rep_n
 
-      reads_count_var[k] = reads_count_square_exp[k] - reads_count_exp[k]^2
-      reads_count_exp_square[k] = reads_count_exp[k]^2
+      read_counts_var[k] = read_counts_square_exp[k] - read_counts_exp[k]^2
+      read_counts_exp_square[k] = read_counts_exp[k]^2
 
 
     }
 
-    #sum_mi_square_var <- sum(reads_count_square_exp)
-    sum_mi_square <- sum(reads_count_exp_square)
+    #sum_mi_square_var <- sum(read_counts_square_exp)
+    sum_mi_square <- sum(read_counts_exp_square)
 
-    sum_vi_var<-sum(reads_count_var)
-    #sum_mi_var<-sum(reads_count_exp)
+    sum_vi_var<-sum(read_counts_var)
+    #sum_mi_var<-sum(read_counts_exp)
 
     #omega<-(sum_vi_var-sum_mi_var) * gene_n / sum_mi_var^2
     omega[i]<- sum_vi_var / sum_mi_square / bio_rep_n

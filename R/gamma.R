@@ -1,7 +1,7 @@
 
 # Internal function for estimating gamma values
 
-solveAnEquation <- function( left = NULL ) {
+.solveAnEquation <- function( left = NULL ) {
 
   right <- matrix(c(1,0,1,1,0,0,
                     0,1,1,0,1,0,
@@ -117,7 +117,7 @@ estgamma = function (objects = NULL, taxa = NULL, subtaxa = NULL,
           taxon_names_arr <- c(taxon_names_arr, taxon_names)
           subtaxon_names_arr <- c(subtaxon_names_arr, subtaxon_names)
 
-          gamma_arr <- solveAnEquation(left_arr)
+          gamma_arr <- .solveAnEquation(left_arr)
 
           gammaD_arr <- c(gammaD_arr, gamma_arr[1])
           gammaE_arr <- c(gammaE_arr, gamma_arr[2])

@@ -30,7 +30,8 @@
 #'
 #' @export
 expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NULL,
-                    method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"))
+                    method = c( "pea", "spe","euc", "cos", "jsd",
+                                "tani", "jac" ,"u", "nbdln" ))
 {
   #if(verbose) message(date())
 
@@ -125,10 +126,10 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NU
 
   #dis.mat <- matrix(0, nr = object_n, nc = object_n)
 
-  reads.count <- matrix(0, nr = gene_n, nc = object_n)
+  read.counts <- matrix(0, nr = gene_n, nc = object_n)
   gene_length <- matrix(0, nr = gene_n, nc = object_n)
 
-  meanRPKM <- matrix(0, nr = gene_n, nc = object_n)
+  expVal <- matrix(0, nr = gene_n, nc = object_n)
 
   omega <- vector("numeric", length = object_n)
   taxon.names <- vector("character", length = object_n)
@@ -144,56 +145,51 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NU
 
     gene_length[,i] = objects[[i]]$gene.lengths
 
-    if (is.null(objects[[i]]$readsCount.rmOut))
-      reads.count[,i] = apply(objects[[i]]$readsCount.raw,1,mean)
+    if (is.null(objects[[i]]$readCounts.rmOut))
+      read.counts[,i] = apply(objects[[i]]$readCounts.raw,1,median)
     else
-      reads.count[,i] = apply(objects[[i]]$readsCount.rmOut,1,mean)
+      read.counts[,i] = apply(objects[[i]]$readCounts.rmOut,1,median)
 
-
-    if (is.null(objects[[i]]$rpkm.rmOut))
-      meanRPKM[,i] = apply(objects[[i]]$rpkm.raw,1,mean)
-    else
-      meanRPKM[,i] = apply(objects[[i]]$rpkm.rmOut,1,mean)
+    expVal[,i] = apply(objects[[i]]$normExp.val,1,median)
 
   }
 
   if (!is.null(rowindex)) {
 
-    meanRPKM <- meanRPKM[rowindex,]
+    expVal <- expVal[rowindex,]
 
-    reads.count <- reads.count[rowindex,]
+    read.counts <- read.counts[rowindex,]
     gene_length <- gene_length[rowindex,]
 
   }
 
   #browser()
-  if (method == "sou")
-    dis.mat <- dist.sou(meanRPKM)
 
-  if (method == "ced")
-    dis.mat <- dist.ced(meanRPKM)
+  dis.mat <- switch (method,
 
-  if (method == "nbdln")
-    dis.mat <- dist.nbdln(reads.count,gene_length,omega)
+    pea = {dist.pea(expVal)},
 
-  if (method == "souln")
-    dis.mat <- dist.brownian(reads.count,gene_length)
+    spe = {dist.spe(expVal)},
 
-  if (method == "pea")
-    dis.mat <- dist.pea(meanRPKM)
+    euc = {dist.euc(expVal)},
 
-  if (method == "euc")
-    dis.mat <- dist.euc(meanRPKM)
+    cos = {dist.cos(expVal)},
 
-  if (method == "cos")
-    dis.mat <- dist.cos(meanRPKM)
+    jsd = {dist.jsd(expVal)},
 
-  if (method == "jsd")
-    dis.mat <- dist.jsd(meanRPKM)
+    tani = {dist.tani(expVal)},
+
+    jac = {dist.jac(expVal)},
+
+    nbdln = {dist.nbdln(read.counts, gene_length, omega)},
+
+    u = {dist.u(read.counts, gene_length)}
+  )
 
   row.names(dis.mat) = taxon.names
   colnames(dis.mat) = taxon.names
 
   dis.mat
+  #as.dist(dis.mat)
 
 }

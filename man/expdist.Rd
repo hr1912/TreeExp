@@ -5,7 +5,7 @@
 \title{Generate a distance matrix from a taxaExp class}
 \usage{
 expdist(objects = NULL, taxa = "all", subtaxa = "all", rowindex = NULL,
-  method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"))
+  method = c("pea", "spe", "euc", "cos", "jsd", "tani", "jac", "u", "nbdln"))
 }
 \arguments{
 \item{objects}{a vector of objects of class \code{taxonExp} or an object of class \code{taxaExp}}

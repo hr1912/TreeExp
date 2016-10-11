@@ -62,16 +62,17 @@ print.taxonExp <- function(object, printlen = 6, ...) {
     print(unlist(object$bioRep.id))
   }
 
-  if (is.null(object$readsCount.rmOut)) {
+  if (is.null(object$readCounts.rmOut)) {
     cat("Outliers NOT removed\n")
   } else {
     cat("Outliers removed\n")
   }
 
-  if (is.null(object$rpkm.raw)) {
-    cat("RPKM NOT calculated\n")
+  if (is.null(object$normExp.val)) {
+    cat("Normalized expression value NOT calculated\n")
   } else {
-    cat("RPKM calculated\n")
+    cat("Normalized expression value calculated\n")
+    cat("Normalized method: ", object$normalize, "\n")
   }
 
   if (is.null(object$omega)) {

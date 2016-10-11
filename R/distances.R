@@ -1,12 +1,18 @@
 
 # Internal function for estimating Euclidean distance
-euc.dist = function(x,y) sqrt(sum((x-y)^2))
+.euc.dist = function(x,y) sqrt(sum((x-y)^2))
 
 # Internal function for estimating Cosine similarity
-cosine.sim = function (x,y) sum(x*y) / (sqrt(sum(x^2))*sqrt(sum(y^2)))
+.cosine.sim = function(x,y) sum(x*y) / (sqrt(sum(x^2))*sqrt(sum(y^2)))
 
 # Internal function for estimating Kullback-Leibler Divergence
-kld = function (x,y) sum(x * log2(x/y))
+.kld = function(x,y) sum(x * log2(x/y))
+
+# Internal function for estimating Tanimoto distance
+.tani.dist = function(x,y) sum(pmax(x,y) - pmin(x,y)) / sum(pmax(x,y))
+
+# Internal function for estimating Jaccard similarity
+.jac.sim = function(x,y) sum(x*y) / (sum(x^2) + sum(y^2) - sum(x*y))
 
 #' @title Internal functions for estimating pair-wise expression distances
 #'
@@ -126,7 +132,7 @@ dist.nbdln = function (reads.count = NULL, gene_length = NULL, omega = NULL) {
 #' @rdname distances
 #'
 #' @export
-dist.souln = function (reads.count = NULL, gene_length = NULL) {
+dist.u = function (reads.count = NULL, gene_length = NULL) {
 
 
   object_n <- ncol(reads.count)
@@ -216,10 +222,10 @@ dist.souln = function (reads.count = NULL, gene_length = NULL) {
 #' @rdname distances
 #'
 #' @export
-dist.jsd = function (meanRPKM = NULL, taxon.names = NULL) {
+dist.jsd = function (expMat = NULL, taxon.names = NULL) {
 
-  object_n <- ncol(meanRPKM)
-  gene_n <- nrow(meanRPKM)
+  object_n <- ncol(expMat)
+  gene_n <- nrow(expMat)
 
   dis.mat <- matrix(0, nr = object_n, nc = object_n)
 
@@ -227,8 +233,8 @@ dist.jsd = function (meanRPKM = NULL, taxon.names = NULL) {
 
     for (j in (i+1):object_n) {
 
-      mu <- (meanRPKM[,i]+1 + meanRPKM[,j]+1) / 2
-      dis.mat[j,i] <- sqrt(.5 * kld(meanRPKM[,i]+1, mu) + .5 * kld(meanRPKM[,j]+1, mu))
+      mu <- (expMat[,i]+1 + expMat[,j]+1) / 2
+      dis.mat[j,i] <- sqrt(.5 * .kld(expMat[,i]+1, mu) + .5 * .kld(expMat[,j]+1, mu))
 
     }
 
@@ -242,10 +248,10 @@ dist.jsd = function (meanRPKM = NULL, taxon.names = NULL) {
 #' @rdname distances
 #'
 #' @export
-dist.pea = function (meanRPKM = NULL) {
+dist.pea = function (expMat = NULL) {
 
-  object_n <- ncol(meanRPKM)
-  gene_n <- nrow(meanRPKM)
+  object_n <- ncol(expMat)
+  gene_n <- nrow(expMat)
 
   dis.mat <- matrix(0, nr = object_n, nc = object_n)
 
@@ -254,7 +260,7 @@ dist.pea = function (meanRPKM = NULL) {
 
     for (j in (i+1):object_n) {
 
-      dis.mat[j,i] <- 1 - cor(log2(meanRPKM[,i]+1),log2(meanRPKM[,j]+1))
+      dis.mat[j,i] <- 1 - cor(log2(expMat[,i]+1),log2(expMat[,j]+1))
 
     }
 
@@ -264,6 +270,34 @@ dist.pea = function (meanRPKM = NULL) {
 
   dis.mat
 
+}
+
+# Spearman distance
+#' @rdname distances
+#'
+#' @export
+dist.spe = function (expMat = NULL) {
+
+  object_n <- ncol(expMat)
+  gene_n <- nrow(expMat)
+
+  dis.mat <- matrix(0, nr = object_n, nc = object_n)
+
+
+  for (i in 1:(object_n-1)) {
+
+    for (j in (i+1):object_n) {
+
+      dis.mat[j,i] <- 1 - cor(log2(expMat[,i]+1),log2(expMat[,j]+1),
+                              method = "spearman")
+
+    }
+
+  }
+
+  #browser()
+
+  dis.mat
 
 }
 
@@ -271,11 +305,11 @@ dist.pea = function (meanRPKM = NULL) {
 #' @rdname distances
 #'
 #' @export
-dist.euc = function (meanRPKM = NULL) {
+dist.euc = function (expMat = NULL) {
 
 
-  object_n <- ncol(meanRPKM)
-  gene_n <- nrow(meanRPKM)
+  object_n <- ncol(expMat)
+  gene_n <- nrow(expMat)
 
   dis.mat <- matrix(0, nr = object_n, nc = object_n)
 
@@ -283,8 +317,7 @@ dist.euc = function (meanRPKM = NULL) {
 
     for (j in (i+1):object_n) {
 
-      #dis.mat[j,i] <- (euc.dist(log2(meanRPKM[,i]+1),log2(meanRPKM[,j]+1)))/gene_n
-      dis.mat[j,i] <- (euc.dist(log2(meanRPKM[,i]+1),log2(meanRPKM[,j]+1)))
+      dis.mat[j,i] <- .euc.dist(log2(expMat[,i]+1),log2(expMat[,j]+1))
     }
 
   }
@@ -298,10 +331,10 @@ dist.euc = function (meanRPKM = NULL) {
 #' @rdname distances
 #'
 #' @export dist.cos
-dist.cos = function (meanRPKM = NULL) {
+dist.cos = function (expMat = NULL) {
 
-  object_n <- ncol(meanRPKM)
-  gene_n <- nrow(meanRPKM)
+  object_n <- ncol(expMat)
+  gene_n <- nrow(expMat)
 
   dis.mat <- matrix(0, nr = object_n, nc = object_n)
 
@@ -310,7 +343,7 @@ dist.cos = function (meanRPKM = NULL) {
 
     for (j in (i+1):object_n) {
 
-      dis.mat[j,i] <- 1-cosine.sim(log2(meanRPKM[,i]+1),log2(meanRPKM[,j]+1))
+      dis.mat[j,i] <- 1-.cosine.sim(log2(expMat[,i]+1),log2(expMat[,j]+1))
 
     }
 
@@ -320,14 +353,14 @@ dist.cos = function (meanRPKM = NULL) {
 
 }
 
-# Distance based on stationary Ornstein-Uhlenback model
+# Tanimoto distance
 #' @rdname distances
 #'
 #' @export
-dist.sou = function (meanRPKM = NULL) {
+dist.tani = function (expMat = NULL) {
 
-  object_n <- ncol(meanRPKM)
-  #gene_n <- nrow(meanRPKM)
+  object_n <- ncol(expMat)
+  gene_n <- nrow(expMat)
 
   dis.mat <- matrix(0, nr = object_n, nc = object_n)
 
@@ -336,9 +369,64 @@ dist.sou = function (meanRPKM = NULL) {
 
     for (j in (i+1):object_n) {
 
-      V11 <- var(log2(meanRPKM[,i]+1))
-      V22 <- var(log2(meanRPKM[,j]+1))
-      V12 <- cov(log2(meanRPKM[,i]+1), log2(meanRPKM[,j]+1))
+      dis.mat[j,i] <- .tani.dist(log2(expMat[,i]+1),log2(expMat[,j]+1))
+
+    }
+
+  }
+
+
+  dis.mat
+
+}
+
+# Jaccard distance
+#' @rdname distances
+#'
+#' @export
+dist.jac = function (expMat = NULL) {
+
+  object_n <- ncol(expMat)
+  gene_n <- nrow(expMat)
+
+  dis.mat <- matrix(0, nr = object_n, nc = object_n)
+
+
+  for (i in 1:(object_n-1)) {
+
+    for (j in (i+1):object_n) {
+
+      dis.mat[j,i] <- 1 - .jac.sim(log2(expMat[,i]+1),log2(expMat[,j]+1))
+
+    }
+
+  }
+
+
+  dis.mat
+
+}
+
+
+# Distance based on stationary Ornstein-Uhlenback model
+# obselete
+#' @rdname distances
+#'
+dist.sou = function (expMat = NULL) {
+
+  object_n <- ncol(expMat)
+  #gene_n <- nrow(expMat)
+
+  dis.mat <- matrix(0, nr = object_n, nc = object_n)
+
+
+  for (i in 1:(object_n-1)) {
+
+    for (j in (i+1):object_n) {
+
+      V11 <- var(log2(expMat[,i]+1))
+      V22 <- var(log2(expMat[,j]+1))
+      V12 <- cov(log2(expMat[,i]+1), log2(expMat[,j]+1))
 
       dis.mat[j,i] <- -log(V12/sqrt(V11*V22))
 
@@ -350,14 +438,15 @@ dist.sou = function (meanRPKM = NULL) {
 
 }
 
+
 # Converntional expression distance
+# obselete
 #' @rdname distances
 #'
-#' @export
-dist.ced = function (meanRPKM = NULL) {
+dist.ced = function (expMat = NULL) {
 
-  object_n <- ncol(meanRPKM)
-  gene_n <- nrow(meanRPKM)
+  object_n <- ncol(expMat)
+  gene_n <- nrow(expMat)
 
   dis.mat <- matrix(0, nr = object_n, nc = object_n)
 
@@ -366,12 +455,12 @@ dist.ced = function (meanRPKM = NULL) {
 
     for (j in (i+1):object_n) {
 
-      V11 <- var(log2(meanRPKM[,i]+1))
-      V22 <- var(log2(meanRPKM[,j]+1))
-      V12 <- cov(log2(meanRPKM[,i]+1), log2(meanRPKM[,j]+1))
+      V11 <- var(log2(expMat[,i]+1))
+      V22 <- var(log2(expMat[,j]+1))
+      V12 <- cov(log2(expMat[,i]+1), log2(expMat[,j]+1))
 
       #dis.mat[j,i] <- V11+V22-2*V12
-      dis.mat[j,i] <- (euc.dist(log2(meanRPKM[,i]+1),log2(meanRPKM[,j]+1)))^2 / gene_n
+      dis.mat[j,i] <- (.euc.dist(log2(expMat[,i]+1),log2(expMat[,j]+1)))^2 / gene_n
 
     }
 

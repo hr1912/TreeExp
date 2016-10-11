@@ -4,29 +4,38 @@
 \alias{dist.ced}
 \alias{dist.cos}
 \alias{dist.euc}
+\alias{dist.jac}
 \alias{dist.jsd}
 \alias{dist.nbdln}
 \alias{dist.pea}
 \alias{dist.sou}
-\alias{dist.souln}
+\alias{dist.spe}
+\alias{dist.tani}
+\alias{dist.u}
 \alias{distances}
 \title{Internal functions for estimating pair-wise expression distances}
 \usage{
 dist.nbdln(reads.count = NULL, gene_length = NULL, omega = NULL)
 
-dist.souln(reads.count = NULL, gene_length = NULL)
+dist.u(reads.count = NULL, gene_length = NULL)
 
-dist.jsd(meanRPKM = NULL, taxon.names = NULL)
+dist.jsd(expMat = NULL, taxon.names = NULL)
 
-dist.pea(meanRPKM = NULL)
+dist.pea(expMat = NULL)
 
-dist.euc(meanRPKM = NULL)
+dist.spe(expMat = NULL)
 
-dist.cos(meanRPKM = NULL)
+dist.euc(expMat = NULL)
 
-dist.sou(meanRPKM = NULL)
+dist.cos(expMat = NULL)
 
-dist.ced(meanRPKM = NULL)
+dist.tani(expMat = NULL)
+
+dist.jac(expMat = NULL)
+
+dist.sou(expMat = NULL)
+
+dist.ced(expMat = NULL)
 }
 \description{
 Several published methods to estimate pair-wise expression distances

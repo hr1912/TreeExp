@@ -1,7 +1,7 @@
 ---
 title: "TreeExp startup guide"
 author: Hang Ruan
-date: Sep 9th, 2016
+date: Oct 11th, 2016
 output: md_document 
 ---
 
@@ -11,7 +11,7 @@ from *RNA-seq* data, including optimized input formatting, normalization
 and pair-wise distance evaluation, expression character tree inference and
 preliminary phylogenetic network analysis.
 
-*TreeExp* package is under active developing, current stable version 1.0 is available at <https://github.com/hr1912/TreeExp>.
+*TreeExp* package is under active developing, current stable version 1.2 is available at <https://github.com/hr1912/TreeExp>.
 
 A convenient way to install package from github is through *devtools* package:
 
@@ -23,7 +23,7 @@ devtools::install_github("hr1912/TreeExp")
 Users can also download *TreeExp* package and install locally through:
 
 ```{r, eval=FALSE}
-install.packages("filePath/TreeExp.1.0.tar.gz", repos = NUll, type = "source")
+install.packages("filePath/TreeExp.1.2.tar.gz", repos = NUll, type = "source")
 ```
 
 Load the package in the usual way:
@@ -47,11 +47,11 @@ The example files are included in the TreeExp package, which can be found in `ex
 
 ```{r, warning=FALSE}
 
-readsCount.table = read.table(system.file('extdata/tetraexp.reads.count.raw.txt', 
+readsCount.table = read.table(system.file('extdata/tetraexp.read.counts.raw.txt', 
                                             package='TreeExp'), header = T)
 head(readsCount.table[,1:10])
 
-geneInfo.table = read.table(system.file('extdata/tetraexp.gene.length.ortholog.txt',
+geneInfo.table = read.table(system.file('extdata/tetraexp.length.ortholog.txt',
                                         package='TreeExp'), header = T)
 head(geneInfo.table)
 
@@ -67,9 +67,9 @@ Or you can access the script at
 <https://github.com/hr1912/TreeExp/blob/master/tools/format2treeexp.pl>
 
 ```{r, eval=FALSE}
-taxa.objects = TEconstruct(readsCountFP = system.file('extdata/tetraexp.reads.count.raw.txt', package='TreeExp'),
-  geneInfoFP = system.file('extdata/tetraexp.gene.length.ortholog.txt', package='TreeExp'), 
-  taxa = "all", subtaxa = c("Brain", "Cerebellum"), calRPKM=TRUE, rmOut=TRUE)
+taxa.objects = TEconstruct(readCountsFP = system.file('extdata/tetraexp.read.counts.raw.txt', package='TreeExp'),
+  geneInfoFP = system.file('extdata/tetraexp.length.ortholog.txt', package='TreeExp'), 
+  taxa = "all", subtaxa = c("Brain", "Cerebellum"), normalize = "TPM")
 ```
 
 The construction process takes **several minutes** on a desktop computer depending on data size and hardware performance. Specify **"taxa"** and **"subtaxa"** options in the function when using partial of your data. The construction process will be faster.
@@ -86,7 +86,7 @@ print(tetraexp.objects, details = TRUE)
 
 ```{r}
 print(tetraexp.objects[[1]], printlen = 6)
-head(tetraexp.objects[[1]]$rpkm.rmOut)
+head(tetraexp.objects[[1]]$normExp.val)
 ```
 
 ### Distance matrix:
@@ -98,7 +98,7 @@ First, we generate a distance matrix:
 dismat <- expdist(tetraexp.objects, taxa = "all",
                  subtaxa = "Brain",
                  method = "pea")
-dismat
+as.dist(dismat)
 ```
 
 You can specify **"taxa"** and **"subtaxa"** options in the `expdist` function as well. The default model **"pea"** is to calculate pair-wise distances by Pearson distance, which equals 1-Pearson’s coefficient of expression level. 

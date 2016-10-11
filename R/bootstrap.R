@@ -29,7 +29,7 @@
 #' data(tetraexp)
 #' dismat <- expdist(tetraexp.objects, taxa = "all",
 #'                  subtaxa = "Brain",
-#'                  method = "sou")
+#'                  method = "pea")
 #' tr <- root(NJ(dismat), "Chicken_Brain")
 #' plot(tr)
 #' bs <- boot.exphy(tr, tetraexp.objects, method = "sou",
@@ -38,7 +38,8 @@
 #'
 #' @export
 boot.exphy = function (phy = NULL, objects = NULL, rowindex = NULL,
-                         method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"),
+                       method = c( "pea", "spe","euc", "cos", "jsd",
+                                   "tani", "jac" ,"u", "nbdln" ),
                          B = 100, rooted = NULL, trees = FALSE)
 {
 
@@ -74,10 +75,13 @@ boot.exphy = function (phy = NULL, objects = NULL, rowindex = NULL,
   message(paste0(date(),": input ", objects_sub_n, " taxa"))
   message(paste0(date(),": total ", gene_n, " genes"))
 
-  reads.count <- matrix(0, nr = gene_n, nc = objects_sub_n)
+  read.counts <- matrix(0, nr = gene_n, nc = objects_sub_n)
   gene_length <- matrix(0, nr = gene_n, nc = objects_sub_n)
 
-  meanRPKM <- matrix(0, nr = gene_n, nc = objects_sub_n)
+  expVal <- matrix(0, nr = gene_n, nc = objects_sub_n)
+
+  rmOut.flag = 1
+  if (is.null(objects.sub[[1]]$readCounts.rmOut)) {rmOut.flag = 0}
 
   taxon.names <- vector("character", length = objects_sub_n)
 
@@ -85,19 +89,24 @@ boot.exphy = function (phy = NULL, objects = NULL, rowindex = NULL,
 
     taxon.names[i] = paste0(objects.sub[[i]]$taxon.name, "_", objects.sub[[i]]$subTaxon.name)
 
-    reads.count[,i] = apply(objects.sub[[i]]$readsCount.rmOut,1,mean)
+    if (rmOut.flag) {
+      read.counts[,i] = apply(objects.sub[[i]]$readCounts.rmOut,1,median)
+    } else {
+      read.counts[,i] = apply(objects.sub[[i]]$readCounts.raw,1,median)
+    }
+
     gene_length[,i] = objects.sub[[i]]$gene.lengths
 
-    meanRPKM[,i] = apply(objects.sub[[i]]$rpkm.rmOut,1,mean)
+    expVal[,i] = apply(objects.sub[[i]]$normExp.val,1,median)
 
   }
 
   if (!is.null(rowindex)) {
 
-    reads.count = reads.count[rowindex,]
+    read.counts = read.counts[rowindex,]
     gene_length = gene_length[rowindex,]
 
-    meanRPKM = meanRPKM[rowindex,]
+    expVal = expVal[rowindex,]
 
   }
 
@@ -115,80 +124,43 @@ boot.exphy = function (phy = NULL, objects = NULL, rowindex = NULL,
 
     gene_index <- unlist(sample(y, replace = T))
 
+    expVal.samp <- expVal[gene_index,]
 
-    if (method == "sou") {
+    dis.mat <- switch(method,
 
-      meanRPKM.samp <- meanRPKM[gene_index,]
+      pea = {dist.pea(expVal.samp)},
 
-      dis.mat <- dist.sou(meanRPKM.samp)
+      spe = {dist.spe(expVal.samp)},
 
-    }
+      euc = {dist.euc(expVal.samp)},
 
+      cos = {dist.cos(expVal.samp)},
 
-    if (method == "ced") {
+      jsd = {dist.jsd(expVal.samp)},
 
-      meanRPKM.samp <- meanRPKM[gene_index,]
+      tani = {dist.tani(expVal.samp)},
 
-      dis.mat <- dist.ced(meanRPKM.samp)
+      jac = {dist.jac(expVal.samp)},
 
-    }
+      u = {
 
-    if (method == "nbdln") {
+        read.counts.samp <- read.counts[gene_index,]
+        gene_length.samp <- gene_length[gene_index,]
 
-      reads.count.samp <- reads.count[gene_index,]
-      gene_length.samp <- gene_length[gene_index,]
+        dist.u(read.counts.samp,gene_length.samp)
 
-      omega.samp <- estomega.sample(objects.sub,gene_index)
+      },
 
-      dis.mat <- dist.nbdln(reads.count.samp, gene_length.samp, omega.samp)
+      nbdln = {
 
-      #browser()
-    }
+        read.counts.samp <- read.counts[gene_index,]
+        gene_length.samp <- gene_length[gene_index,]
+        omega.samp <- .estomega.sample(objects.sub,gene_index)
 
+        dist.nbdln(read.counts.samp,gene_length.samp,omega.samp)
+      }
 
-    if (method == "souln") {
-
-      reads.count.samp <- reads.count[gene_index,]
-      gene_length.samp <- gene_length[gene_index,]
-
-      dis.mat <- dist.souln(reads.count.samp, gene_length.samp)
-
-
-    }
-
-    if (method == "pea") {
-
-      meanRPKM.samp <- meanRPKM[gene_index,]
-
-      dis.mat <- dist.pea(meanRPKM.samp)
-
-    }
-
-
-    if (method == "euc") {
-
-      meanRPKM.samp <- meanRPKM[gene_index,]
-
-      dis.mat <- dist.euc(meanRPKM.samp)
-
-    }
-
-    if (method == "cos") {
-
-      meanRPKM.samp <- meanRPKM[gene_index,]
-
-      dis.mat <- dist.cos(meanRPKM.samp)
-
-    }
-
-
-    if (method == "jsd") {
-
-      meanRPKM.samp <- meanRPKM[gene_index,]
-
-      dis.mat <- dist.jsd(meanRPKM.samp)
-
-    }
+    )
 
     row.names(dis.mat) = taxon.names
     colnames(dis.mat) = taxon.names

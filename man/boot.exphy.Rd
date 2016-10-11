@@ -5,7 +5,7 @@
 \title{Bootstrapping expression phylogeny}
 \usage{
 boot.exphy(phy = NULL, objects = NULL, rowindex = NULL,
-  method = c("sou", "ced", "pea", "souln", "nbdln", "euc", "cos", "jsd"),
+  method = c("pea", "spe", "euc", "cos", "jsd", "tani", "jac", "u", "nbdln"),
   B = 100, rooted = NULL, trees = FALSE)
 }
 \arguments{
@@ -39,7 +39,7 @@ bootstrap by resampling gene (gene, transcript, exon, etc..)
 data(tetraexp)
 dismat <- expdist(tetraexp.objects, taxa = "all",
                  subtaxa = "Brain",
-                 method = "sou")
+                 method = "pea")
 tr <- root(NJ(dismat), "Chicken_Brain")
 plot(tr)
 bs <- boot.exphy(tr, tetraexp.objects, method = "sou",

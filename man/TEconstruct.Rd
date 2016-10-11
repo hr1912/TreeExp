@@ -4,11 +4,12 @@
 \alias{TEconstruct}
 \title{Construct a taxaExp object.}
 \usage{
-TEconstruct(readsCountFP = NULL, geneInfoFP = NULL, taxa = "all",
-  subtaxa = "all", calRPKM = TRUE, rmOut = TRUE, verbose = FALSE)
+TEconstruct(readCountsFP = NULL, geneInfoFP = NULL, taxa = "all",
+  subtaxa = "all", normalize = c("TPM", "RPKM", "CPM"), rmOut = FALSE,
+  verbose = FALSE)
 }
 \arguments{
-\item{readsCountFP}{a text file contains raw reads count data.
+\item{readCountsFP}{a text file contains raw read counts data.
 Row names correspond with gene names,
 and column names correspond with taxon and subtaxon names.}
 
@@ -16,21 +17,21 @@ and column names correspond with taxon and subtaxon names.}
 Row names conrrespond with gene names,
 and column names correspond with taxon names.}
 
-\item{taxa}{one single character or a vector of characters specifying main taxa selected for
+\item{taxa}{one single string or a vector of strings specifying main taxa selected for
 constructing \code{taxaExp} object.
 Taxa names are extracted from row names given in gene length file.
-If one single character "all" is given,
+If one single string "all" is given,
 all the taxa in the row names will be matched and selected ("all" by default).}
 
-\item{subtaxa}{one single character or a vector of characters sepcifying sub taxa selected for
+\item{subtaxa}{one single string or a vector of strings sepcifying sub taxa selected for
 constructing \code{taxaExp} object.
-If one single character "all" is given,
+If one single string "all" is given,
 all the sub taxa in the row names will be matched and selected ("all" by default).}
 
-\item{calRPKM}{a logical sepcifying whether to calculate RPKM value
-while constructing \code{taxaExp} object (TRUE by default).}
+\item{normalize}{a single string sepcifying normalization method ("TPM", "RPKM" or "CPM")
+while constructing \code{taxaExp} object ("TPM" by default).}
 
-\item{rmOut}{a logical sepcifying whether to remove reads count outliers
+\item{rmOut}{a logical sepcifying whether to remove read counts outliers
 while constructing \code{taxaExp} objects (TRUE by default).}
 
 \item{verbose}{a logical specifying whether to print more information on the screen
@@ -41,15 +42,15 @@ returns an object of class \code{Taxa} (S3 class, a list of \code{taxonExp} obje
 }
 \description{
 constructor function for \code{taxaExp} objects
-This function takes in a reads count file and a gene information file.
+This function takes in a read counts file and a gene information file.
 And construct a \code{taxaExp} object from which user can extract information
 for display or for further analysis.
 }
 \examples{
 
-taxa.objects = TEconstruct(readsCountFP = system.file('extdata/tetraexp.reads.count.raw.txt', package = 'phyExp'),
-   geneInfoFP = system.file('extdata/tetraexp.gene.length.ortholog.txt', package = 'phyExp'),
-   taxa = "all", subtaxa = c("Brain", "Cerebellum"), calRPKM = TRUE, rmOut =TRUE)
+taxa.objects = TEconstruct(readCountsFP = system.file('extdata/tetraexp.read.counts.raw.txt', package = 'TreeExp'),
+   geneInfoFP = system.file('extdata/tetraexp.length.ortholog.txt', package = 'TreeExp'),
+   taxa = "all", subtaxa = c("Brain", "Cerebellum"), normalize = "TPM")
 
 }
 
