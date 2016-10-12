@@ -2,7 +2,7 @@
 % Please edit documentation in R/expdist.R
 \name{expdist}
 \alias{expdist}
-\title{Generate a distance matrix from a taxaExp class}
+\title{Expression distance matrix generated from a taxaExp class}
 \usage{
 expdist(objects = NULL, taxa = "all", subtaxa = "all", rowindex = NULL,
   method = c("pea", "spe", "euc", "cos", "jsd", "tani", "jac", "u", "nbdln"))
@@ -27,6 +27,10 @@ to estimate expression phylogeny in bootstrapping.}
 }
 \value{
 returns an expression distance matrix
+}
+\description{
+Generate An expression distance matrix from a taxaExp class
+using a specified distance method
 }
 \examples{
 data(tetraexp)

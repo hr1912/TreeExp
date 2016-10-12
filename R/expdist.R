@@ -1,7 +1,9 @@
 #‘
-#' @title Generate a distance matrix from a taxaExp class
+#' @title Expression distance matrix generated from a taxaExp class
 #'
 #' @name expdist
+#' @description Generate An expression distance matrix from a taxaExp class
+#' using a specified distance method
 #'
 #' @param objects a vector of objects of class \code{taxonExp} or an object of class \code{taxaExp}
 #' @param taxa one single character or a vector of characters specifying main taxa selected for
@@ -36,7 +38,7 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NU
   #if(verbose) message(date())
 
   if (is.null(objects) || class(objects) != "taxaExp") {
-    stop(paste0(date(), "no valid taxaExp objects input"))
+    stop(paste0(date(), ": no valid taxaExp objects input!"))
   }
 
   flag1 <- TRUE
@@ -106,6 +108,10 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NU
     class(objects_new) <- "taxaExp"
 
     objects <- objects_new
+
+  } else {
+
+    stop(paste0(date(),": taxa and subtaxa name not found."))
 
   }
 

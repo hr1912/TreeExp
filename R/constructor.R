@@ -269,7 +269,7 @@ TEconstruct = function(readCountsFP=NULL, geneInfoFP=NULL, taxa="all", subtaxa="
 
         },
 
-        CPM = { # Counts Per Million read counts upper-quantile normalization then transfer to CPM
+        CPM = { # Counts Per Million not normalized by gene length
           if (rmOut) {
             read.counts.rmOut[,l] / (sum(read.counts.rmOut[,l]) / 10^6)
           } else {
