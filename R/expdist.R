@@ -109,12 +109,13 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NU
 
     objects <- objects_new
 
-  } else {
+  }
+
+  if (length(objects_new) == 0) {
 
     stop(paste0(date(),": taxa and subtaxa name not found."))
 
   }
-
   #browser()
 
   method<-match.arg(method)
@@ -195,7 +196,7 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NU
   row.names(dis.mat) = taxon.names
   colnames(dis.mat) = taxon.names
 
-  dis.mat
+  dis.mat + t(dis.mat)
   #as.dist(dis.mat)
 
 }

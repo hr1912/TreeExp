@@ -53,7 +53,6 @@ TEconstruct = function(readCountsFP=NULL, geneInfoFP=NULL, taxa="all", subtaxa="
   if(all(c(!file.exists(readCountsFP), !file.exists(geneInfoFP)))){
     stop(paste0(date(),": fail to open file, check your filename or path"))
   }
-
   #browser()
 
   # input
@@ -98,6 +97,9 @@ TEconstruct = function(readCountsFP=NULL, geneInfoFP=NULL, taxa="all", subtaxa="
     message(paste0(date(),": skipping some taxa gene length info"))
   }
 
+  normalize<-match.arg(normalize)
+  message(paste0(date(), ": using ", normalize, " to normalize raw read counts"))
+  
   # get taxon names
   #browser()
   cat("\n")

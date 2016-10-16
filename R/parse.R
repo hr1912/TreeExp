@@ -38,6 +38,9 @@ exptabTE = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = N
   else { subtaxa <- gsub("\\s+","",subtaxa)}
 
   #browser()
+
+  expval_table <- NULL
+  sample_names <- NULL
   # subsetting
   if ( flag1 || flag2)
 
@@ -47,9 +50,6 @@ exptabTE = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = N
 
     #objects_new_n <- 0
     #browser()
-
-    expval_table <- NULL
-    sample_names <- NULL
 
     for (i in 1:objects_n)
 
@@ -75,13 +75,16 @@ exptabTE = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = N
 
     }
 
-    row.names(expval_table) = objects[[1]]$gene.names
-    colnames(expval_table) = sample_names
+  }
 
+  if (is.null(expval_table)) {
+
+    stop(paste0(date(),": taxa and subtaxa name not found."))
 
   } else {
 
-    stop(paste0(date(),": taxa and subtaxa name not found."))
+    row.names(expval_table) = objects[[1]]$gene.names
+    colnames(expval_table) = sample_names
 
   }
 

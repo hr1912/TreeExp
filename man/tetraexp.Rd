@@ -5,11 +5,10 @@
 \alias{tetraexp}
 \title{taxaExp object created from expression data}
 \format{a \code{taxaExp} object, contains 53 \code{taxonExp}:
-with reads count data and RPKM value on 5636 genes,
-raw data and outlier removed data provided.}
+with raw reads count data and TPM value on 5636 genes.}
 \description{
 large \code{taxaExp} object created from
-six tissues' expression reads count data of nine tetrapod species
+six tissues' expression data of nine tetrapod species
 }
 \examples{
 data(tetraexp)
