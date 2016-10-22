@@ -33,9 +33,9 @@ dist.tani(expMat = NULL)
 
 dist.jac(expMat = NULL)
 
-dist.sou(expMat = NULL)
-
 dist.ced(expMat = NULL)
+
+dist.sou(expMat = NULL)
 }
 \description{
 Several published methods to estimate pair-wise expression distances

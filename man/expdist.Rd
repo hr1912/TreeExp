@@ -5,7 +5,8 @@
 \title{Expression distance matrix generated from a taxaExp class}
 \usage{
 expdist(objects = NULL, taxa = "all", subtaxa = "all", rowindex = NULL,
-  method = c("pea", "spe", "euc", "cos", "jsd", "tani", "jac", "u", "nbdln"))
+  method = c("pea", "spe", "euc", "cos", "jsd", "tani", "jac", "u", "nbdln"),
+  logrithm = TRUE)
 }
 \arguments{
 \item{objects}{a vector of objects of class \code{taxonExp} or an object of class \code{taxaExp}}
@@ -24,6 +25,8 @@ all the subtaxa included in the \code{taxaExp} will be matched and selected ("al
 
 \item{method}{specifying which distance method to be used
 to estimate expression phylogeny in bootstrapping.}
+
+\item{logrithm}{a logical specifying whether to apply expression value log2 tranformation (TRUE by default).}
 }
 \value{
 returns an expression distance matrix

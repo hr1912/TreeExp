@@ -213,7 +213,6 @@ dist.u = function (reads.count = NULL, gene_length = NULL) {
     }
   }
 
-
   dis.mat
 
 }
@@ -233,8 +232,17 @@ dist.jsd = function (expMat = NULL, taxon.names = NULL) {
 
     for (j in (i+1):object_n) {
 
-      mu <- (expMat[,i]+1 + expMat[,j]+1) / 2
-      dis.mat[j,i] <- sqrt(.5 * .kld(expMat[,i]+1, mu) + .5 * .kld(expMat[,j]+1, mu))
+      if (expMat[,i] == 0 || expMat[,j] == 0) {
+
+        mu <- (expMat[,i] + expMat[,j] + .02) / 2
+        dis.mat[j,i] <- sqrt(.5 * .kld(expMat[,i]+.01, mu) + .5 * .kld(expMat[,j]+.01, mu))
+
+      } else {
+
+        mu <- (expMat[,i] + expMat[,j]) / 2
+        dis.mat[j,i] <- sqrt(.5 * .kld(expMat[,i], mu) + .5 * .kld(expMat[,j], mu))
+
+      }
 
     }
 
@@ -260,7 +268,7 @@ dist.pea = function (expMat = NULL) {
 
     for (j in (i+1):object_n) {
 
-      dis.mat[j,i] <- 1 - cor(log2(expMat[,i]+1),log2(expMat[,j]+1))
+      dis.mat[j,i] <- 1 - cor(expMat[,i],expMat[,j])
 
     }
 
@@ -288,7 +296,7 @@ dist.spe = function (expMat = NULL) {
 
     for (j in (i+1):object_n) {
 
-      dis.mat[j,i] <- 1 - cor(log2(expMat[,i]+1),log2(expMat[,j]+1),
+      dis.mat[j,i] <- 1 - cor(expMat[,i],expMat[,j],
                               method = "spearman")
 
     }
@@ -317,7 +325,7 @@ dist.euc = function (expMat = NULL) {
 
     for (j in (i+1):object_n) {
 
-      dis.mat[j,i] <- .euc.dist(log2(expMat[,i]+1),log2(expMat[,j]+1))
+      dis.mat[j,i] <- .euc.dist(expMat[,i],expMat[,j])
     }
 
   }
@@ -343,7 +351,7 @@ dist.cos = function (expMat = NULL) {
 
     for (j in (i+1):object_n) {
 
-      dis.mat[j,i] <- 1-.cosine.sim(log2(expMat[,i]+1),log2(expMat[,j]+1))
+      dis.mat[j,i] <- 1-.cosine.sim(expMat[,i],expMat[,j])
 
     }
 
@@ -369,7 +377,7 @@ dist.tani = function (expMat = NULL) {
 
     for (j in (i+1):object_n) {
 
-      dis.mat[j,i] <- .tani.dist(log2(expMat[,i]+1),log2(expMat[,j]+1))
+      dis.mat[j,i] <- .tani.dist(expMat[,i],expMat[,j])
 
     }
 
@@ -396,7 +404,7 @@ dist.jac = function (expMat = NULL) {
 
     for (j in (i+1):object_n) {
 
-      dis.mat[j,i] <- 1 - .jac.sim(log2(expMat[,i]+1),log2(expMat[,j]+1))
+      dis.mat[j,i] <- 1 - .jac.sim(expMat[,i],expMat[,j])
 
     }
 
@@ -407,6 +415,32 @@ dist.jac = function (expMat = NULL) {
 
 }
 
+# Converntional expression distance
+#' @rdname distances
+#'
+#' @export
+dist.ced = function (expMat = NULL) {
+
+  object_n <- ncol(expMat)
+  gene_n <- nrow(expMat)
+
+  dis.mat <- matrix(0, nr = object_n, nc = object_n)
+
+
+  for (i in 1:(object_n-1)) {
+
+    for (j in (i+1):object_n) {
+
+      #dis.mat[j,i] <- V11+V22-2*V12
+      dis.mat[j,i] <- (.euc.dist(expMat[,i],expMat[,j]))^2 / gene_n
+
+    }
+
+  }
+
+  dis.mat
+
+}
 
 # Distance based on stationary Ornstein-Uhlenback model
 # obselete
@@ -424,9 +458,9 @@ dist.sou = function (expMat = NULL) {
 
     for (j in (i+1):object_n) {
 
-      V11 <- var(log2(expMat[,i]+1))
-      V22 <- var(log2(expMat[,j]+1))
-      V12 <- cov(log2(expMat[,i]+1), log2(expMat[,j]+1))
+      V11 <- var(expMat[,i])
+      V22 <- var(expMat[,j])
+      V12 <- cov(expMat[,i], expMat[,j])
 
       dis.mat[j,i] <- -log(V12/sqrt(V11*V22))
 
@@ -438,34 +472,3 @@ dist.sou = function (expMat = NULL) {
 
 }
 
-
-# Converntional expression distance
-# obselete
-#' @rdname distances
-#'
-dist.ced = function (expMat = NULL) {
-
-  object_n <- ncol(expMat)
-  gene_n <- nrow(expMat)
-
-  dis.mat <- matrix(0, nr = object_n, nc = object_n)
-
-
-  for (i in 1:(object_n-1)) {
-
-    for (j in (i+1):object_n) {
-
-      V11 <- var(log2(expMat[,i]+1))
-      V22 <- var(log2(expMat[,j]+1))
-      V12 <- cov(log2(expMat[,i]+1), log2(expMat[,j]+1))
-
-      #dis.mat[j,i] <- V11+V22-2*V12
-      dis.mat[j,i] <- (.euc.dist(log2(expMat[,i]+1),log2(expMat[,j]+1)))^2 / gene_n
-
-    }
-
-  }
-
-  dis.mat
-
-}

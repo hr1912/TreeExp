@@ -17,6 +17,7 @@
 #' @param rowindex a vector of numbers corresponded to indices of selecting rows
 #' @param method specifying which distance method to be used
 #' to estimate expression phylogeny in bootstrapping.
+#' @param logrithm a logical specifying whether to apply expression value log2 tranformation (TRUE by default).
 #'
 #' @return returns an expression distance matrix
 #'
@@ -33,7 +34,7 @@
 #' @export
 expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NULL,
                     method = c( "pea", "spe","euc", "cos", "jsd",
-                                "tani", "jac" ,"u", "nbdln" ))
+                                "tani", "jac" ,"u", "nbdln" ), logrithm = TRUE)
 {
   #if(verbose) message(date())
 
@@ -170,6 +171,11 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NU
 
   }
 
+  if (logrithm) {
+
+    expVal <- apply(expVal, c(1,2), function (x) log2(x+1))
+
+  }
   #browser()
 
   dis.mat <- switch (method,
@@ -187,6 +193,8 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NU
     tani = {dist.tani(expVal)},
 
     jac = {dist.jac(expVal)},
+
+    ced = {dist.ced(expVal)},
 
     nbdln = {dist.nbdln(read.counts, gene_length, omega)},
 
