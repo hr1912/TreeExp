@@ -42,14 +42,11 @@ exptabTE = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = N
   expval_table <- NULL
   sample_names <- NULL
   # subsetting
+  objects_n <- length(objects)
+
   if ( flag1 || flag2)
 
   {
-
-    objects_n <- length(objects)
-
-    #objects_new_n <- 0
-    #browser()
 
     for (i in 1:objects_n)
 
@@ -73,7 +70,11 @@ exptabTE = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = N
         }
       }
 
-    }
+  } else {
+
+      expval_table <- cbind(expval_table, apply(objects[[i]]$normExp.val, 1, median))
+      sample_names <- c(sample_names,
+                        paste0(objects[[i]]$taxon.name,"_",objects[[i]]$subTaxon.name))
 
   }
 

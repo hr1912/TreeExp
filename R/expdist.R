@@ -53,14 +53,12 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NU
 
   #browser()
   # subsetting
+  objects_n <- length(objects)
+  objects_new_n <- 0
+
   if ( flag1 || flag2)
 
   {
-
-    objects_n <- length(objects)
-
-    objects_new_n <- 0
-
     #browser()
 
     for (i in 1:objects_n)
@@ -109,6 +107,11 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NU
     class(objects_new) <- "taxaExp"
 
     objects <- objects_new
+
+  } else {
+
+    objects_new[[counter]] <- objects[[i]]
+    counter <- counter + 1
 
   }
 
