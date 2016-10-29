@@ -69,12 +69,14 @@ exptabTE = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = N
                             paste0(objects[[i]]$taxon.name,"_",objects[[i]]$subTaxon.name))
         }
       }
-
+    }
   } else {
 
+    for (i in 1:objects_n) {
       expval_table <- cbind(expval_table, apply(objects[[i]]$normExp.val, 1, median))
       sample_names <- c(sample_names,
                         paste0(objects[[i]]$taxon.name,"_",objects[[i]]$subTaxon.name))
+    }
 
   }
 
