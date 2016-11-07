@@ -79,8 +79,10 @@ TEconstruct = function(readCountsFP=NULL, geneInfoFP=NULL, taxa="all", subtaxa="
 
   message(paste0(date(),": removing ", length(invalid_arr), " sample(s) with ultra-low read counts"))
 
-  invalid_arr = 0 - invalid_arr
-  read.counts.df <- read.counts.df[,invalid_arr]
+  if (length(invalid_arr) != 0) {
+    invalid_arr = 0 - invalid_arr
+    read.counts.df <- read.counts.df[,invalid_arr]
+  }
 
   # gene number and taxon number
   gene_n <- nrow(gene.info.df)

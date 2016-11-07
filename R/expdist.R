@@ -109,9 +109,14 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NU
     objects <- objects_new
 
   } else {
+      
+    objects_new <- vector("list", length = objects_new_n)
+    counter <- 1
 
-    objects_new[[counter]] <- objects[[i]]
-    counter <- counter + 1
+    for (i i 1:objects_n) {
+        objects_new[[counter]] <- objects[[i]]
+        counter <- counter + 1
+    }
 
   }
 
