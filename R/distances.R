@@ -221,7 +221,7 @@ dist.u = function (reads.count = NULL, gene_length = NULL) {
 #' @rdname distances
 #'
 #' @export
-dist.jsd = function (expMat = NULL, taxon.names = NULL) {
+dist.jsd = function (expMat = NULL) {
 
   object_n <- ncol(expMat)
   gene_n <- nrow(expMat)
@@ -232,7 +232,7 @@ dist.jsd = function (expMat = NULL, taxon.names = NULL) {
 
     for (j in (i+1):object_n) {
 
-      if (expMat[,i] == 0 || expMat[,j] == 0) {
+      if (any(expMat[,i] == 0) || any(expMat[,j] == 0)) {
 
         mu <- (expMat[,i] + expMat[,j] + .02) / 2
         dis.mat[j,i] <- sqrt(.5 * .kld(expMat[,i]+.01, mu) + .5 * .kld(expMat[,j]+.01, mu))
