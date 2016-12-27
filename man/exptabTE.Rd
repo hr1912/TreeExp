@@ -4,7 +4,8 @@
 \alias{exptabTE}
 \title{Expression level table from a taxaExp class}
 \usage{
-exptabTE(objects = NULL, taxa = "all", subtaxa = "all", rowindex = NULL)
+exptabTE(objects = NULL, taxa = "all", subtaxa = "all", rowindex = NULL,
+  logrithm = TRUE)
 }
 \arguments{
 \item{objects}{a vector of objects of class \code{taxonExp} or an object of class \code{taxaExp}}
@@ -20,6 +21,8 @@ If one single character "all" is given,
 all the subtaxa included in the \code{taxaExp} will be matched and included ("all" by default).}
 
 \item{rowindex}{a vector of numbers corresponded to indices of selecting rows}
+
+\item{logrithm}{a logical specifying whether to apply expression value log2 tranformation (TRUE by default).}
 }
 \value{
 an expression level table: column corresponds to median expression value of all biological samples

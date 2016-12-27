@@ -19,7 +19,7 @@ dist.nbdln(reads.count = NULL, gene_length = NULL, omega = NULL)
 
 dist.u(reads.count = NULL, gene_length = NULL)
 
-dist.jsd(expMat = NULL, taxon.names = NULL)
+dist.jsd(expMat = NULL)
 
 dist.pea(expMat = NULL)
 

@@ -15,12 +15,14 @@
 #' If one single character "all" is given,
 #' all the subtaxa included in the \code{taxaExp} will be matched and included ("all" by default).
 #' @param rowindex a vector of numbers corresponded to indices of selecting rows
+#' @param logrithm a logical specifying whether to apply expression value log2 tranformation (TRUE by default).
 
 #' @return an expression level table: column corresponds to median expression value of all biological samples
 #' within one taxa_subtaxa group; row corresponds to othologous genes
 #'
 #' @export
-exptabTE = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NULL)
+exptabTE = function (objects = NULL, taxa = "all", subtaxa = "all",
+                     rowindex = NULL, logrithm = TRUE)
 
 {
 
@@ -94,6 +96,12 @@ exptabTE = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = N
   if (!is.null(rowindex)) {
 
     expval_table <- expval_table[rowindex,]
+
+  }
+
+  if (logrithm) {
+
+    expval_table <- apply(expval_table, c(1,2), function(x) log2(x+1))
 
   }
 
