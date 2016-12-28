@@ -3,7 +3,7 @@
 #'
 #' @name corrMatInv
 #'
-#' @description Generate an inversed correlation matrix between expression profiles of species
+#' @description Generate an inversed correlation mat`rix between expression profiles of species
 #'
 #' @param objects a vector of objects of class \code{taxonExp} or an object of class \code{taxaExp}
 #' @param taxa one single character or a vector of characters specifying main taxa to generate
@@ -19,6 +19,8 @@
 #'
 #' @export
 corrMatInv = function(objects = NULL, taxa = "all", subtaxa = NULL, method = c("spe", "pea")) {
+
+  method <- match.arg(method)
 
   dis.mat <- expdist(objects, taxa = taxa,subtaxa = subtaxa, method = method)
   corr.mat <- as.matrix(1 - as.dist(dis.mat))
@@ -53,7 +55,7 @@ estParaGamma = function(exptable = NULL, corrmatinv = NULL) {
 
   }
 
-  Q_gene < - vector(mode = "numeric", length = gene_num)
+  Q_gene <- vector(mode = "numeric", length = gene_num)
 
   for (k in 1:gene_num) { # for each orthologous gene
 
@@ -109,7 +111,7 @@ estParaQ = function(exptable = NULL, corrmatinv = NULL) {
 
   }
 
-  Q_gene < - vector(mode = "numeric", length = gene_num)
+  Q_gene <- vector(mode = "numeric", length = gene_num)
 
   for (k in 1:gene_num) { # for each orthologous gene
 
@@ -145,9 +147,9 @@ estParaWBayesian = function(qgene = NULL, gammaparas = NULL) {
 
   W_gene <- numeric(length = length(qgene))
 
-  alpha_est <- gammaparas$alpha
-  W_est <- gammaparas$W
-  species_num <- gammaparas$speNum
+  alpha_est <- gammaparas[[1]]
+  W_est <- gammaparas[[2]]
+  species_num <- gammaparas[[6]]
 
   for (i in 1:gene_num) {
 
