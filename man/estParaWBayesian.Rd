@@ -12,7 +12,7 @@ estParaWBayesian(qgene = NULL, gammaparas = NULL)
 \item{gammaparas}{a vector specifying parameters estimated from \code{estParaGamma}}
 }
 \value{
-returns a vector of parameter Ws estimated from previous Q estimation
+returns a vector of exptations and variances of parameter Ws estimated from previous Q estimation
 }
 \description{
 Bayesian estimation of expression conservation from previous data set

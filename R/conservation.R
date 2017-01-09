@@ -3,7 +3,7 @@
 #'
 #' @name corrMatInv
 #'
-#' @description Generate an inversed correlation mat`rix between expression profiles of species
+#' @description Generate an inversed correlation matrix between expression profiles of species
 #'
 #' @param objects a vector of objects of class \code{taxonExp} or an object of class \code{taxaExp}
 #' @param taxa one single character or a vector of characters specifying main taxa to generate
@@ -140,12 +140,12 @@ estParaQ = function(exptable = NULL, corrmatinv = NULL) {
 #' @param qgene a vector specifying parameter Q estimated from \code{estParaQ}
 #' @param gammaparas a vector specifying parameters estimated from \code{estParaGamma}
 #'
-#' @return returns a vector of parameter Ws estimated from previous Q estimation
+#' @return returns a vector of exptations and variances of parameter Ws estimated from previous Q estimation
 #'
 #' @export
 estParaWBayesian = function(qgene = NULL, gammaparas = NULL) {
 
-  W_gene <- numeric(length = length(qgene))
+  W_gene_exp <- numeric(length = length(qgene))
 
   alpha_est <- gammaparas[[1]]
   W_est <- gammaparas[[2]]
@@ -153,13 +153,14 @@ estParaWBayesian = function(qgene = NULL, gammaparas = NULL) {
 
   for (i in 1:gene_num) {
 
-    W_gene[i] <- (alpha_est + species_num / 2) /
+    W_gene_exp[i] <- (alpha_est + species_num / 2) /
       (alpha_est + species_num / 2) /
       (alpha_est + Q_gene[i] * W_est) * W_est
 
   }
 
-  W_gene
+  W_gene_var <- (W_est ^ 2) / (alpha_est + species_num / 2) * W_gene_exp ^ 2
 
+  list(exp=W_gene_exp,var=W_gene_var)
 }
 
