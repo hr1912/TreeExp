@@ -143,7 +143,7 @@ estParaQ = function(exptable = NULL, corrmatinv = NULL) {
 #' @return returns a vector of exptations and variances of parameter Ws estimated from previous Q estimation
 #'
 #' @export
-estParaWBayesian = function(qgene = NULL, gammaparas = NULL) {
+estParaWBayesian = function(Q_gene = NULL, gammaparas = NULL) {
 
   W_gene_exp <- numeric(length = length(qgene))
 
@@ -151,7 +151,7 @@ estParaWBayesian = function(qgene = NULL, gammaparas = NULL) {
   W_est <- gammaparas[[2]]
   species_num <- gammaparas[[6]]
 
-  for (i in 1:gene_num) {
+  for (i in 1:length(Q_gene)) {
 
     W_gene_exp[i] <- (alpha_est + species_num / 2) /
       (alpha_est + species_num / 2) /
