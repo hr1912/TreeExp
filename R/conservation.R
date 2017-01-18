@@ -145,7 +145,7 @@ estParaQ = function(exptable = NULL, corrmatinv = NULL) {
 #' @export
 estParaWBayesian = function(Q_gene = NULL, gammaparas = NULL) {
 
-  W_gene_exp <- numeric(length = length(qgene))
+  W_gene_exp <- numeric(length = length(Q_gene))
 
   alpha_est <- gammaparas[[1]]
   W_est <- gammaparas[[2]]
