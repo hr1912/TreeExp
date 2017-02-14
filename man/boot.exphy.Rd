@@ -5,8 +5,8 @@
 \title{Bootstrapping expression phylogeny}
 \usage{
 boot.exphy(phy = NULL, objects = NULL, rowindex = NULL,
-  method = c("pea", "spe", "euc", "cos", "jsd", "tani", "jac", "u", "nbdln"),
-  B = 100, rooted = NULL, trees = FALSE)
+  method = c("sou", "pea", "spe", "euc", "cos", "jsd", "tani", "jac", "u",
+  "nbdln"), B = 100, rooted = NULL, trees = FALSE)
 }
 \arguments{
 \item{phy}{an object of class \code{phylo}.}

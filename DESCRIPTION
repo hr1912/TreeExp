@@ -1,11 +1,11 @@
 Package: TreeExp
 Type: Package
 Title: the R package for analyzing expression evolution based on RNA-seq data
-Version: 1.2
-Date: 2016-10-11
+Version: 2.0
+Date: 2017-02-15
 Author: Hang Ruan <hang.ruan@hotmail.com>
 Maintainer: Hang Ruan <hang.ruan@hotmail.com>
 Depends: R (>= 3.0.0), ape
-Description: TreeExp is an R package that performs analyses of expression eovlution from RNA-seq data, including optimized input formatting, normalization and pair-wise distance evaluation, expression character tree inference and preliminary phylogenetic network analysis.
+Description: TreeExp is an R package that performs analyses of expression eovlution from RNA-seq data, including optimized input formatting, normalization and pair-wise distance evaluation, expression character tree inference, preliminary phylogenetic network analysis, gene-specific expression conservation evaluation and ancestral expression estimation
 LazyData: TRUE
 RoxygenNote: 5.0.1

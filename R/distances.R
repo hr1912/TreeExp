@@ -443,9 +443,10 @@ dist.ced = function (expMat = NULL) {
 }
 
 # Distance based on stationary Ornstein-Uhlenback model
-# obselete
+#
 #' @rdname distances
 #'
+#' @export
 dist.sou = function (expMat = NULL) {
 
   object_n <- ncol(expMat)

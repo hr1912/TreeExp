@@ -33,7 +33,7 @@
 #'
 #' @export
 expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NULL,
-                    method = c( "pea", "spe","euc", "cos", "jsd",
+                    method = c( "sou", "pea", "spe","euc", "cos", "jsd",
                                 "tani", "jac" ,"u", "nbdln" ), logrithm = TRUE)
 {
   #if(verbose) message(date())
@@ -187,6 +187,8 @@ expdist = function (objects = NULL, taxa = "all", subtaxa = "all", rowindex = NU
   #browser()
 
   dis.mat <- switch (method,
+
+    sou = {dist.sou(expVal)},
 
     pea = {dist.pea(expVal)},
 

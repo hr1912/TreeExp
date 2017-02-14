@@ -38,7 +38,7 @@
 #'
 #' @export
 boot.exphy = function (phy = NULL, objects = NULL, rowindex = NULL,
-                       method = c( "pea", "spe","euc", "cos", "jsd",
+                       method = c( "sou", "pea", "spe","euc", "cos", "jsd",
                                    "tani", "jac" ,"u", "nbdln" ),
                          B = 100, rooted = NULL, trees = FALSE)
 {
@@ -128,6 +128,8 @@ boot.exphy = function (phy = NULL, objects = NULL, rowindex = NULL,
 
     dis.mat <- switch(method,
 
+      sou = {dist.sou(expVal.samp)},
+
       pea = {dist.pea(expVal.samp)},
 
       spe = {dist.spe(expVal.samp)},
@@ -196,4 +198,3 @@ boot.exphy = function (phy = NULL, objects = NULL, rowindex = NULL,
   ans
 
 }
-

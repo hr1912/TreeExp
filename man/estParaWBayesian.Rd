@@ -4,15 +4,15 @@
 \alias{estParaWBayesian}
 \title{Bayesian estimation of expression conservation from previous data set}
 \usage{
-estParaWBayesian(qgene = NULL, gammaparas = NULL)
+estParaWBayesian(Q_gene = NULL, gammaparas = NULL)
 }
 \arguments{
-\item{qgene}{a vector specifying parameter Q estimated from \code{estParaQ}}
-
 \item{gammaparas}{a vector specifying parameters estimated from \code{estParaGamma}}
+
+\item{qgene}{a vector specifying parameter Q estimated from \code{estParaQ}}
 }
 \value{
-returns a vector of exptations and variances of parameter Ws estimated from previous Q estimation
+returns a vector of exptations and confidence intervals of parameter Ws estimated from previous Q estimation
 }
 \description{
 Bayesian estimation of expression conservation from previous data set

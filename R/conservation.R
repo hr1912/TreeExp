@@ -140,7 +140,7 @@ estParaQ = function(exptable = NULL, corrmatinv = NULL) {
 #' @param qgene a vector specifying parameter Q estimated from \code{estParaQ}
 #' @param gammaparas a vector specifying parameters estimated from \code{estParaGamma}
 #'
-#' @return returns a vector of exptations and variances of parameter Ws estimated from previous Q estimation
+#' @return returns a vector of exptations and confidence intervals of parameter Ws estimated from previous Q estimation
 #'
 #' @export
 estParaWBayesian = function(Q_gene = NULL, gammaparas = NULL) {
@@ -161,6 +161,9 @@ estParaWBayesian = function(Q_gene = NULL, gammaparas = NULL) {
 
   W_gene_var <- (W_est ^ 2) / (alpha_est + species_num / 2) * W_gene_exp ^ 2
 
-  list(exp=W_gene_exp,var=W_gene_var)
+  tmp <- sqrt(W_gene_var) * qgamma(0.025, alpha_est)
+  W_gene_ci95 <- cbind(W_est + tmp, W_est - tmp)
+
+  list(exp=W_gene_exp, ci95=W_gene_ci95)
 }
 

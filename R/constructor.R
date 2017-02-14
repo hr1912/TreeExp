@@ -101,7 +101,7 @@ TEconstruct = function(readCountsFP=NULL, geneInfoFP=NULL, taxa="all", subtaxa="
 
   normalize<-match.arg(normalize)
   message(paste0(date(), ": using ", normalize, " to normalize raw read counts"))
-  
+
   # get taxon names
   #browser()
   cat("\n")
