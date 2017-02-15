@@ -1,7 +1,9 @@
 TreeExp
 =======
 
-Happy Valentine's Day :heart: **Jingjing** :heart:
+Happy Valentine's Day 17.02.14 :gift_heart: **Version 2.0** :gift_heart:
+
+Version 2.0 includes a new ancestral expression estimation function and a few of bug fixes
 
 *TreeExp* is an *R* package that performs analyses of expression
 evolution from *RNA-seq* data, including optimized input formatting,
