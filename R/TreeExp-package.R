@@ -9,6 +9,7 @@
 #' @docType package
 #'
 #' @import ape
+#' @import phytools
 #'
 #' @author Hang Ruan (hang.ruan@hotmail.com).
 #'

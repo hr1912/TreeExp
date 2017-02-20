@@ -53,4 +53,18 @@ of one-to-one orthologous genes across species
 
 This function esitmates ancestral expression profile and related statistical uncertainty
 }
+\examples{
+
+data('tetraexp')
+dismat <- expdist(tetraexp.objects, taxa = "all", subtaxa = "Brain", method = "sou")
+exp_tree <- NJ(dismat)
+exp_tree <- root(exp_tree, outgroup = "Chicken_Brain", resolve.root = T)
+exp_tree <- no0br(exp_tree)
+var_mat <- varMatInv(objects = tetraexp.objects,phy = exp_tree,taxa = "all", subtaxa = "Brain")
+exp_table <- exptabTE(tetraexp.objects, taxa = "all", subtaxa = "Brain")
+exp_one <- aee(exp_table[1,], exp_tree, var_mat)
+exp_tree$node.label <- exp_one$est
+plot(exp_tree)
+
+}
 

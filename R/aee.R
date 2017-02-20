@@ -108,6 +108,19 @@ varMatInv = function(objects , phy, taxa = "all", subtaxa) {
 #' @return returns a list containing estimated ancestral expression profile
 #' as well as other requested parameters
 #'
+#' @examples
+#'
+#' data('tetraexp')
+#' dismat <- expdist(tetraexp.objects, taxa = "all", subtaxa = "Brain", method = "sou")
+#' exp_tree <- NJ(dismat)
+#' exp_tree <- root(exp_tree, outgroup = "Chicken_Brain", resolve.root = T)
+#' exp_tree <- no0br(exp_tree)
+#' var_mat <- varMatInv(objects = tetraexp.objects,phy = exp_tree,taxa = "all", subtaxa = "Brain")
+#' exp_table <- exptabTE(tetraexp.objects, taxa = "all", subtaxa = "Brain")
+#' exp_one <- aee(exp_table[1,], exp_tree, var_mat)
+#' exp_tree$node.label <- exp_one$est
+#' plot(exp_tree)
+#'
 #' @export
 aee = function(x, phy, mat, CI = TRUE) {
 
@@ -143,6 +156,8 @@ aee = function(x, phy, mat, CI = TRUE) {
   tr_edges <- phy$edge
 
   ### using children nodes to estimate ancestral nodes' expression
+
+  if (0) { ### problematic? start
 
   while (any (is.na(expr[(n_tip+2):(n_tip+n_node)]))) {
 
@@ -180,8 +195,28 @@ aee = function(x, phy, mat, CI = TRUE) {
 
   expr[n_tip+1] <- beta0 + sum(beta * expr[child_nodes])
 
-  ancestral$est <- expr[(n_tip+1):(n_tip+n_node)]
+  } ### problematic? end
 
+  else {
+  ### estimating ancestral expression with all decendant tips
+  for (i in (n_tip+1):(n_tip+n_node)) {
+
+    child_nodes <- getDescendants(phy, i)
+
+    child_tips <- child_nodes[child_nodes < (n_tip+1)] ### only tips
+
+    mu <- mean(expr[child_tips])
+
+    beta <- unlist(lapply(child_tips, function(x) - mat[x,i] / mat[i,i]))
+    beta0 <- mu * (1 - sum(beta))
+
+    expr[i] <- beta0 + sum(beta * expr[child_tips])
+
+  }
+
+  }
+
+  ancestral$est <- expr[(n_tip+1):(n_tip+n_node)]
   ### if calculating confidence interval
 
   if (CI) {
