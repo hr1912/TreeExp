@@ -13,7 +13,7 @@ varMatInv(objects, phy, taxa = "all", subtaxa)
 aee(x, phy, mat, CI = TRUE)
 }
 \arguments{
-\item{phy}{an rooted tree with zero}
+\item{phy}{an rooted tree}
 
 \item{objects}{a vector of objects of class \code{taxonExp} or an object of class \code{taxaExp}}
 
@@ -37,7 +37,7 @@ of the estimated ancestral expression levels}
 \item{phy}{a phylogenetic tree in the form of object "phylo"}
 }
 \value{
-returns the tree without zero-length branch
+returns the tree without zero-length or negative-length branch
 
 returns an inversed variance matrix
 
@@ -46,7 +46,8 @@ as well as other requested parameters
 }
 \description{
 This function does a small tweak on the tree to remove zero-length branch
-between root and MRCA of the ingroup
+between root and MRCA of the ingroup, and replace any negative branch lengths
+with a small length
 
 This function generate an inversed variance matrix from expression profiles
 of one-to-one orthologous genes across species

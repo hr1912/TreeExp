@@ -4,7 +4,8 @@
 \alias{map.ls}
 \title{Map the expression distance onto a given tree topology}
 \usage{
-map.ls(phy D)
+map.tree <- map.ls(phy, D)
+attr(map.tree, "Q-score")
 }
 \arguments{
 \item{phy}{a phylogenetic tree}

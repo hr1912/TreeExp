@@ -14,7 +14,8 @@
 #' @return mapped tree and the sum of squares residual error (Q-score)
 #'
 #' @usage
-#' map.ls(phy D)
+#' map.tree <- map.ls(phy, D)
+#' attr(map.tree, "Q-score")
 #'
 #' @export
 map.ls = function (phy, D) {
@@ -30,3 +31,4 @@ map.ls = function (phy, D) {
 
   ls.tree(phy, D)
 }
+
