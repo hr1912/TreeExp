@@ -13,7 +13,7 @@
 #'
 #' @return mapped tree and the sum of squares residual error (Q-score)
 #'
-#' @usage
+#' @examples
 #' map.tree <- map.ls(phy, D)
 #' attr(map.tree, "Q-score")
 #'
