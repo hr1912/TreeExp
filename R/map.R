@@ -20,15 +20,15 @@
 #' @export
 map.ls = function (phy, D) {
 
-  if (!inherits(phy, "phylo"))
-    stop(paste0(date(), ": \"phy\" input is not of class \"phylo\""))
+    if (!inherits(phy, "phylo"))
+        stop(paste0(date(), ": \"phy\" input is not of class \"phylo\""))
 
-  if (!is.binary.tree(phy))
-    phy <- multi2di(phy)
+    if (!is.binary.tree(phy))
+        phy <- multi2di(phy)
 
-  if (is.rooted(phy))
-    phy <- unroot(phy)
+    if (is.rooted(phy))
+        phy <- unroot(phy)
 
-  ls.tree(phy, D)
+    ls.tree(phy, D)
 }
 
