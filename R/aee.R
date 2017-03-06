@@ -2,7 +2,7 @@
 #' @title No zero branch length
 #'
 #' @name no0br
-#' @rdname aee
+#' @rdname no0br
 #'
 #' @description This function does a small tweak on the tree to remove zero-length branch
 #' between root and MRCA of the ingroup, and replace any negative branch lengths
@@ -78,7 +78,8 @@ varMatInv = function(objects , phy, taxa = "all", subtaxa) {
     if (length(subtaxa) > 1 || subtaxa == "all")
         stop(paste0(date(),": only one subtaxon are allowed here"))
 
-    dismat <- expdist(objects, taxa = taxa, subtaxa = subtaxa, method = "sou") ### using -ln(rho) to estimate pairwise expression distance
+    ### using -ln(rho) to estimate pairwise expression distance
+    dismat <- expdist(objects, taxa = taxa, subtaxa = subtaxa, method = "sou")
 
     if (!all(row.names(dismat) %in% phy$tip.label ))
         stop(paste0(date(),": taxa or subtaxa names do not match perfectly with tree tip labels, please check them."))
@@ -134,7 +135,7 @@ varMatInv = function(objects , phy, taxa = "all", subtaxa) {
 #' plot(exp_tree)
 #'
 #' @export
-aee = function(x, phy, mat, select = c("descendents","all") , CI = TRUE) {
+aee = function(x, phy, mat, select = c("all", "descendents") , CI = TRUE) {
 
     ### checking input formats
     if (!inherits(phy,"phylo"))
@@ -162,7 +163,7 @@ aee = function(x, phy, mat, select = c("descendents","all") , CI = TRUE) {
 
     expr <- numeric(length = n_tip + n_node) ### expression values vector initiate
 
-    expr[1:n_tip] <- if (is.null(names(x))) x else x[phy$tip.label] ### given expression values of tips
+    expr[1:n_tip] <- if (is.null(names(x))) x else as.numeric(x[phy$tip.label]) ### given expression values of tips
     expr[(n_tip+1):(n_tip+n_node)] <- NA ### ancestral nodes expression values to be estimated
 
     tr_edges <- phy$edge

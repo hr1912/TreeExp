@@ -4,8 +4,7 @@
 \alias{map.ls}
 \title{Map the expression distance onto a given tree topology}
 \usage{
-map.tree <- map.ls(phy, D)
-attr(map.tree, "Q-score")
+map.ls(phy, D)
 }
 \arguments{
 \item{phy}{a phylogenetic tree}
@@ -19,5 +18,10 @@ mapped tree and the sum of squares residual error (Q-score)
 This function computes the least squares brach lengths
 on a tree with known topology and a distance matrix. Borrowed something from
 "phytools" package.
+}
+\examples{
+map.tree <- map.ls(phy, D)
+attr(map.tree, "Q-score")
+
 }
 
