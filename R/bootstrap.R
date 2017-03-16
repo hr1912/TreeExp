@@ -65,10 +65,12 @@ boot.exphy = function (phy = NULL, objects = NULL, rowindex = NULL,
 
   class(objects.sub) <- "taxaExp"
 
-  if (counter != (objects_sub_n+1)) {
-    message(paste0(date(),"incompatible phylo object and taxaExp objects"))
-    stop()
-  }
+  #if (counter != (objects_sub_n+1)) {
+  #  message(paste0(date(),"incompatible phylo object and taxaExp objects"))
+  #  stop()
+  #}
+
+  objects_sub_n <- length(objects.sub)
 
   gene_n <- objects.sub[[1]]$gene.num
 
@@ -111,6 +113,8 @@ boot.exphy = function (phy = NULL, objects = NULL, rowindex = NULL,
   }
 
   boot.tree <- vector("list",B)
+
+  message(paste0(date(),": calculating bootstrap values..."))
 
   progbar <- txtProgressBar(style = 3)
 

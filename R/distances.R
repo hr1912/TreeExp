@@ -463,7 +463,13 @@ dist.sou = function (expMat = NULL) {
       V22 <- var(expMat[,j])
       V12 <- cov(expMat[,i], expMat[,j])
 
-      dis.mat[j,i] <- -log(V12/sqrt(V11*V22))
+      if (V12 > 0) {
+        dis.mat[j,i] <- -log(V12/sqrt(V11*V22))
+      } else {
+        dis.mat[j,i] <- 0
+        warning(paste0(date(),
+            sprinf(": correlation between %d and %d may be negative or equals zero, replace with 0", j, i)))
+      }
 
     }
 

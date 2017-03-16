@@ -107,3 +107,41 @@ exptabTE = function (objects = NULL, taxa = "all", subtaxa = "all",
 
   expval_table
 }
+
+
+#' @title Expression variance-covariance matrix
+#'
+#' @name estVarCov
+#' @description Generate a variance-covariance matrix from an expression distance matrix
+#'
+#' @param expMat an expression distance matrix
+#'
+#' @return returns an expression variance-covariance matrix
+#'
+#' @export
+estVarCov = function (expMat = NULL) {
+
+    object_n <- ncol(expMat)
+
+    cov.mat <- matrix(0, nr = object_n, nc = object_n)
+
+    for (i in 1:(object_n-1)) {
+
+        for (j in (i+1):object_n) {
+
+            cov.mat[j,i] <- cov(expMat[,i], expMat[,j])
+
+        }
+
+    }
+
+    colnames(cov.mat) <- colnames(expMat)
+    row.names(cov.mat) <- colnames(expMat)
+
+    cov.mat <- cov.mat + t(cov.mat)
+
+    diag(cov.mat) <- apply(expMat, 2, var)
+
+    cov.mat
+}
+
