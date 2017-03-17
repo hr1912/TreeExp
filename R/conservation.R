@@ -154,7 +154,6 @@ estParaWBayesian = function(Q_gene = NULL, gammaparas = NULL) {
   for (i in 1:length(Q_gene)) {
 
     W_gene_exp[i] <- (alpha_est + species_num / 2) /
-      (alpha_est + species_num / 2) /
       (alpha_est + Q_gene[i] * W_est) * W_est
 
   }
@@ -162,7 +161,7 @@ estParaWBayesian = function(Q_gene = NULL, gammaparas = NULL) {
   W_gene_var <- (W_est ^ 2) / (alpha_est + species_num / 2) * W_gene_exp ^ 2
 
   tmp <- sqrt(W_gene_var) * qgamma(0.025, alpha_est)
-  W_gene_ci95 <- cbind(W_est + tmp, W_est - tmp)
+  W_gene_ci95 <- cbind(W_gene_exp - tmp, W_gene_exp + tmp)
 
   list(exp=W_gene_exp, ci95=W_gene_ci95)
 }
