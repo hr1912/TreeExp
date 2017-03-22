@@ -468,7 +468,7 @@ dist.sou = function (expMat = NULL) {
       } else {
         dis.mat[j,i] <- 0
         warning(paste0(date(),
-            sprinf(": correlation between %d and %d may be negative or equals zero, replace with 0", j, i)))
+            sprintf(": correlation between %d and %d may be negative or equals zero, replace with 0", j, i)))
       }
 
     }
