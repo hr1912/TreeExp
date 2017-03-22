@@ -44,6 +44,8 @@ boot.exphy = function (phy = NULL, objects = NULL, rowindex = NULL,
                          B = 100, rooted = NULL, trees = FALSE)
 {
 
+  stop(paste0(date(), ": obselete function, use \'boot.phylo\' instead!"))
+
   method<- match.arg(method)
 
   message(paste0(date(), ": start bootstapping ", B,  " times using ", method))
