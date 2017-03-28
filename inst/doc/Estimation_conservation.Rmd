@@ -1,0 +1,81 @@
+---
+title: "Bayesian estimation of gene-specific conservation levels"
+author: "Hang Ruan"
+output: rmarkdown::html_vignette
+vignette: >
+    %\VignetteIndexEntry{Bayesian estimation of gene-specific conservation levels}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
+
+It is reasonable to assume that the stabilizing selection pressures on expression levels of different genes within a species should be different. In here, we assume that the selection pressures on genes in a tissue within a species follow a gamma distribution:
+
+$$
+\phi(W) = \frac{(\alpha/\bar{W})^\alpha}{\Gamma(\alpha)}W^{\alpha-1}e^{-\alpha W/\bar{W}}
+$$
+We use the expression values of 5635 1:1 orthologous genes in brain of nine mammalian species to estimate the parameters of the selection pressure gamma distribution in brain. Then we estimate the gene-specific selection pressure based on Bayes' theorem.
+
+*TreeExp* can be loaded the package in the usual way:
+
+```{r, warning=FALSE, message = FALSE}
+library('TreeExp')
+```
+
+Let us first load the tetrapod expression dataset:
+
+```{r, warning = FALSE, message = FALSE}
+data('tetraexp')
+```
+
+### Inversed correlation matrix
+
+And then, based on the constructed *taxaExp* object, we are going to create an inverse correlation matrix between mammalian species from the *taxaExp* object:
+
+```{r, warning = FALSE, message = FALSE}
+
+species.group <- c("Human", "Chimpanzee", "Bonobo", "Gorilla", "Orangutan",
+                   "Macaque", "Mouse", "Opossum", "Platypus")
+### all mammalian species
+
+inv.corr.mat <- corrMatInv(tetraexp.objects, taxa = species.group, subtaxa = "Brain")
+```
+
+### Estimation of gamma parameters
+
+Then we need to extract the 'RPKM' values of orthologous genes from the *taxaExp* object.
+
+```{r, warning = FALSE, message = FALSE}
+brain.exptable <- exptabTE(tetraexp.objects, taxa = species.group, subtaxa = "Brain" )
+head(brain.exptable)
+```
+
+With the inverse correlation matrix and 'RPKM' values, we are now able to estimate the parameters of the gamma distribution:
+
+```{r, warning = FALSE, message = FALSE}
+gamma.paras <- estParaGamma(brain.exptable, inv.corr.mat)
+cat(gamma.paras)
+```
+
+The $\bar{W}$ is the average of the selection pressure levels in the tissue brain. 
+And the shape parameter $\alpha$ here can reflect the internal variances of selection pressure. The more close $\alpha$ is to 2, the more distinctive selection pressures on genes. And if the $\alpha$ is close to infinite, it means there are no difference among selection pressures on genes.
+
+### Bayesian estimation of gene-specific selection pressure
+
+After parameters of the gamma distribution are estimated, we are able to estimate posterior selection pressures as well as their se with given 'RPKM' values across species:
+
+```{r, warning = FALSE, message = FALSE, fig.height=4, fig.width=6}
+   
+brain.Q <- estParaQ(brain.exptable, corrmatinv = inv.corr.mat)
+# with prior expression values and inversed correlation matrix
+    
+brain.post<- estParaWBayesian(brain.Q, gamma.paras)
+brain.W <- brain.post$exp # posterior expression values
+brain.CI <- brain.post$ci95 # posterior expression 95% confidence interval
+
+names(brain.W) <- rownames(brain.exptable)
+
+head(sort(brain.W, decreasing = T)) #check a few genes with highest seletion pressure
+
+plot(density(brain.W))
+```
+

@@ -9,3 +9,5 @@ Depends: R (>= 3.0.0), ape, phytools
 Description: TreeExp is an R package that performs analyses of expression eovlution from RNA-seq data, including optimized input formatting, normalization and pair-wise distance evaluation, expression character tree inference, preliminary phylogenetic network analysis, gene-specific expression conservation evaluation and ancestral expression estimation
 LazyData: TRUE
 RoxygenNote: 5.0.1
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr

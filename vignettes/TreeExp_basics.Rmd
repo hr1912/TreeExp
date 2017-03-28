@@ -1,0 +1,69 @@
+---
+title: "TreeExp basics"
+author: "Hang Ruan"
+output: rmarkdown::html_vignette
+vignette: >
+    %\VignetteIndexEntry{TreeExp basics}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
+
+*TreeExp* can be loaded the package in the usual way:
+
+```{r, warning=FALSE}
+library('TreeExp')
+```
+
+### Input Format:
+
+*TreeExp* package takes in reads count data and gene information file in certain format:
+
+1. Gene information file should be a text file in the shape of a matrix, in which values are separated by tabs. `Rows` correspond to orthologous genes and `columns` correspond to species names. And the values in the matrix are in the format of "`GeneId:GeneLength`".
+
+2. Reads count file should also be a text file in the matrix shape, `Rows` correspond to orthologous genes which should be in one-to-one correspondence with rows in Gene information file, though gene ids are displayed in reads count file. `Columns` correspond to sample names. Sample names are in format of "`TaxaName_SubtaxaName_ReplicatesName`". 
+
+The example files are included in the TreeExp package, which can be found in `extdata` folder in the package. One can load them in to take a look:
+
+```{r, warning=FALSE}
+
+readsCount.table = read.table(system.file('extdata/tetraexp.read.counts.raw.txt', 
+                                            package='TreeExp'), header = T)
+head(readsCount.table[,1:10])
+
+geneInfo.table = read.table(system.file('extdata/tetraexp.length.ortholog.txt',
+                                        package='TreeExp'), header = T)
+head(geneInfo.table)
+
+```
+
+### Construction:
+
+The construction function `TEconstruct` loads in the reads count data file as well as a gene information file, and wraps them in a list of *taxonExp* objects (one *taxaExp* object).
+
+In the package, we include files transformed from six tissues' expression reads count data of nine tetrapod species.
+If you want to transform your own data, a transformation Perl script `format2treeexp.pl` to format raw outputs of *TopHat2* to "*TreeExp* compatible" is available at `tools` folder in the package.
+Or you can access the script at
+<https://github.com/hr1912/TreeExp/blob/master/tools/format2treeexp.pl>
+
+```{r, eval=FALSE}
+taxa.objects = TEconstruct(readCountsFP = system.file('extdata/tetraexp.read.counts.raw.txt', package='TreeExp'),
+  geneInfoFP = system.file('extdata/tetraexp.length.ortholog.txt', package='TreeExp'), 
+  taxa = "all", subtaxa = c("Brain", "Cerebellum"), normalize = "TPM")
+```
+
+The construction process takes **several minutes** on a desktop computer depending on data size and hardware performance. Specify **"taxa"** and **"subtaxa"** options in the function when using partial of your data. The construction process will be faster.
+If you are hesitated to test the *TreeExp*, the package has already bundled a constructed object and you can load the object through:
+
+```{r}
+data(tetraexp)
+```
+
+You can take a look at what the loaded objects:
+```{r}
+print(tetraexp.objects, details = TRUE)
+```
+
+```{r}
+print(tetraexp.objects[[1]], printlen = 6)
+head(tetraexp.objects[[1]]$normExp.val)
+```
