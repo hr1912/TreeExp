@@ -1,11 +1,11 @@
 ---
 title: "Ancestral expression estimation"
 author: "Hang Ruan"
-output: rmarkdown::html_vignette
-vignette: >
-    %\VignetteIndexEntry{Ancestral expression estimation}
-    %\VignetteEngine{knitr::rmarkdown}
-    %\VignetteEncoding{UTF-8}
+date: "2017/3/28"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
 ---
 
 The idea of ancestral expression estimation is very straight forward, if we define $x=(x_1,...,x_n)$ are known expression levels of species at the tips of a phylogeny. $y$ is the expression level at ancestral node that we are interested to know. According to Bayes' theorem, the posterior density $P(y|x_1,...,x_n)$ can be calculated as:

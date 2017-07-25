@@ -1,11 +1,11 @@
 ---
 title: "TreeExp basics"
 author: "Hang Ruan"
-output: rmarkdown::html_vignette
-vignette: >
-    %\VignetteIndexEntry{TreeExp basics}
-    %\VignetteEngine{knitr::rmarkdown}
-    %\VignetteEncoding{UTF-8}
+date: "2017/3/28"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
 ---
 
 *TreeExp* can be loaded the package in the usual way:

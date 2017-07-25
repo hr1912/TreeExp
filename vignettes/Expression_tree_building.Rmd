@@ -1,11 +1,11 @@
 ---
 title: "Expression character tree building"
 author: "Hang Ruan"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Expression character tree building}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+date: "2017/3/28"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
 ---
 
 Expression divergence of two genomes can be considered as concerted evolution of transcriptome from their common ancestor, which can be measured by among orthologous genes' variance components. And more specifically, the expression levels of same tissue across different species can be treated as taxonomic units, which can be placed at the tips of character tree that represents expression evolution of these species.
