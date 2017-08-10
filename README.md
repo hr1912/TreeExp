@@ -6,8 +6,8 @@ evolution from *RNA-seq* data, including optimized input formatting,
 normalization and pair-wise distance evaluation, expression character
 tree inference and preliminary phylogenetic network analysis.
 
-*TreeExp* package is under active developing, current stable version 2.0
-is available at <https://github.com/hr1912/TreeExp>.
+*TreeExp* package is under active developing, current developing version
+2.0 is available at <https://github.com/hr1912/TreeExp>.
 
 A convenient way to install package from github is through *devtools*
 package:
@@ -18,3 +18,7 @@ package:
 Users can also download *TreeExp* package and install locally through:
 
     install.packages("filePath/TreeExp.2.0.tar.gz", repos = NUll, type = "source")
+
+Please refer to
+[vignettes](https://github.com/hr1912/TreeExp/tree/master/vignettes) for
+startup guide of *TreeExp*.
